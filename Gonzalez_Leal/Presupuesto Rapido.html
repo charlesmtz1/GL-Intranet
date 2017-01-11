@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <title>GL Intranet | Presupuesto rápido</title>
+    </head>
+
+    <body style="background-color:lightgray">
+        <div class="jumbotron" style="text-align:center">
+            <h1>Presupuesto r&aacutepido</h1>
+        </div>
+        <div class="container" style="background-color:white">
+            <form class="form-horizontal" oninput="reparaciontotal.value=parseFloat(a1.value) + parseFloat(a2.value) + parseFloat(a3.value) + parseFloat(a4.value)
+                                        + parseFloat(a5.value) + parseFloat(a6.value) + parseFloat(a7.value) + parseFloat(a8.value) + parseFloat(a9.value)
+                                        + parseFloat(a10.value) + parseFloat(a11.value) + parseFloat(a12.value) + parseFloat(a13.value) + parseFloat(a14.value)
+                                        + parseFloat(a15.value);
+                                        
+                                        cambiototal.value = parseFloat(b1.value) + parseFloat(b2.value) + parseFloat(b3.value) + parseFloat(b4.value)
+                                        + parseFloat(b5.value) + parseFloat(b6.value) + parseFloat(b7.value) + parseFloat(b8.value) + parseFloat(b9.value)
+                                        + parseFloat(b10.value) + parseFloat(b11.value) + parseFloat(b12.value) + parseFloat(b13.value) + parseFloat(b14.value)
+                                        + parseFloat(b15.value);
+                                        
+                                        mecanicatotal.value = parseFloat(c1.value) + parseFloat(c2.value) + parseFloat(c3.value) + parseFloat(c4.value)
+                                        + parseFloat(c5.value) + parseFloat(c6.value) + parseFloat(c7.value) + parseFloat(c8.value) + parseFloat(c9.value)
+                                        + parseFloat(c10.value) + parseFloat(c11.value) + parseFloat(c12.value) + parseFloat(c13.value) + parseFloat(c14.value)
+                                        + parseFloat(c15.value);
+                                        
+                                        pinturatotal.value = parseFloat(d1.value) + parseFloat(d2.value) + parseFloat(d3.value) + parseFloat(d4.value)
+                                        + parseFloat(d5.value) + parseFloat(d6.value) + parseFloat(d7.value) + parseFloat(d8.value) + parseFloat(d9.value)
+                                        + parseFloat(d10.value) + parseFloat(d11.value) + parseFloat(d12.value) + parseFloat(d13.value) + parseFloat(d14.value)
+                                        + parseFloat(d15.value);
+                                        
+                                        refacciontotal.value = parseFloat(e1.value) + parseFloat(e2.value) + parseFloat(e3.value) + parseFloat(e4.value)
+                                        + parseFloat(e5.value) + parseFloat(e6.value) + parseFloat(e7.value) + parseFloat(e8.value) + parseFloat(e9.value)
+                                        + parseFloat(e10.value) + parseFloat(e11.value) + parseFloat(e12.value) + parseFloat(e13.value) + parseFloat(e14.value)
+                                        + parseFloat(e15.value);
+                                        
+                                        totalmanoobra.value = parseFloat(reparaciontotal.value) + parseFloat(cambiototal.value) + parseFloat(mecanicatotal.value)
+                                        + parseFloat(pinturatotal.value);
+
+                                        totalrefacciones.value = parseFloat(refacciontotal.value);
+
+                                        totalvaluacion.value = parseFloat(totalmanoobra.value) + parseFloat(totalrefacciones.value);
+                                        
+                                        "
+                                 action="Presupuesto.html" method="POST">
+                <fieldset>
+                <legend>Datos del cliente</legend>
+                <div class="form-group" >
+                    <label class="control-label col-sm-1" for="nombre">Nombre:</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" name="nombre" placeholder="Ingrese el nombre">    
+                    </div> 
+                    <label class="control-label col-sm-1" for="domicilio">Domicilio:</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" name="domicilio" placeholder="Ingrese el domicilio">    
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-1" for="colonia">Colonia:</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" name="colonia" placeholder="Ingrese la colonia">    
+                    </div>
+                    <label class="control-label col-sm-1" for="municipio">Municipio:</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" name="municipio" placeholder="Ingrese el municipio">
+                    </div>
+                    <label class="control-label col-sm-1" for="rfc">R.F.C.:</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" name="rfc" placeholder="Ingrese el RFC" maxlength="13">
+                    </div>
+                </div>
+                    
+                <div class="form-group">
+                    <label class="control-label col-sm-1" for="telefono">Tel&eacutefono:</label>
+                    <div class="col-sm-2">
+                        <input type="tel" class="form-control" name="telefono" placeholder="Número a 10 dígitos" maxlength="10">
+                    </div>
+                    <label class="control-label col-sm-1" for="celular">Celular:</label>
+                    <div class="col-sm-2">
+                        <input type="tel" class="form-control" name="celular" placeholder="Número a 10 dígitos" maxlength="10">   
+                    </div>
+                    <label class="control-label col-sm-1" for="email">E-Mail:</label>
+                    <div class="col-sm-3">
+                        <input type="email" class="form-control" name="email" placeholder="ejemplo@correo.com">
+                    </div>
+                </div>                        
+            </fieldset>
+            <br>
+
+            <fieldset>
+                <legend>Datos del veh&iacuteculo</legend>
+                <div class="form-group">
+                    <label class="control-label col-sm-1" for="marca">Marca:</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" name="marca" >
+                    </div>
+                    <label class="control-label col-sm-1" for="tipo">Tipo:</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" name="tipo" >
+                    </div>
+                    <label class="control-label col-sm-1" for="modelo">Modelo:</label>
+                    <div class="col-sm-1">
+                        <input type="text" class="form-control" name="modelo" >
+                    </div>
+                    <label class="control-label col-sm-1" for="placas">Placas:</label>
+                    <div class="col-sm-2">
+                    <input type="text" class="form-control" name="placas">    
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-1" for="cia">Compa&ntildeia:</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" name="cia" >
+                    </div>
+                    <label class="control-label col-sm-1" for="siniestro">Siniestro:</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" name="siniestro">    
+                    </div>
+                </div>
+            </fieldset>
+            <br>
+            
+            <fieldset>
+                <legend style="text-align:center">Costo por pieza</legend>
+                <div class="form-group" style="text-align:center">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-3">
+                        <label for="concepto">Concepto</label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label for="reparacion">Reparaci&oacuten</label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label for="cambio">Cambio</label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label for="mecanica">Mec&aacutenica</label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label for="pintura">Pintura</label>
+                    </div>
+                    <div class="col-sm-1">
+                        <label for="refaccion">Refacci&oacuten</label>
+                    </div>
+                </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="concepto1">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="a1" name="reparacion1" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="b1" name="cambio1" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="c1" name="mecanica1" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="d1" name="pintura1" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="e1" name="refaccion1" value="0" maxlength="5">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="concepto2">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="a2" name="reparacion2" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="b2" name="cambio2" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="c2" name="mecanica2" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="d2" name="pintura2" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="e2" name="refaccion2" value="0" maxlength="5">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="concepto3">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="a3" name="reparacion3" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="b3" name="cambio3" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="c3" name="mecanica3" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="d3" name="pintura3" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="e3" name="refaccion3" value="0" maxlength="5">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="concepto4">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="a4" name="reparacion4" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="b4" name="cambio4" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="c4" name="mecanica4" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="d4" name="pintura4" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="e4" name="refaccion4" value="0" maxlength="5">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="concepto5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="a5" name="reparacion5" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="b5" name="cambio5" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="c5" name="mecanica5" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="d5" name="pintura5" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="e5" name="refaccion5" value="0" maxlength="5">
+                        </div>
+                    </div>                    
+
+                    <div class="form-group">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="concepto6">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="a6" name="reparacion6" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="b6" name="cambio6" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="c6" name="mecanica6" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="d6" name="pintura6" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="e6" name="refaccion6" value="0" maxlength="5">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="concepto7">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="a7" name="reparacion7" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="b7" name="cambio7" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="c7" name="mecanica7" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="d7" name="pintura7" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="e7" name="refaccion7" value="0" maxlength="5">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="concepto8">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="a8" name="reparacion8" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="b8" name="cambio8" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="c8" name="mecanica8" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="d8" name="pintura8" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="e8" name="refaccion8" value="0" maxlength="5">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="concepto9">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="a9" name="reparacion9" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="b9" name="cambio9" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="c9" name="mecanica9" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="d9" name="pintura9" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="e9" name="refaccion9" value="0" maxlength="5">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="concepto10">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="a10" name="reparacion10" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="b10" name="cambio10" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="c10" name="mecanica10" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="d10" name="pintura10" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="e10" name="refaccion10" value="0" maxlength="5">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="concepto11">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="a11" name="reparacion11" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="b11" name="cambio11" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="c11" name="mecanica11" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="d11" name="pintura11" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="e11" name="refaccion11" value="0" maxlength="5">
+                        </div>
+                    </div>
+
+                     <div class="form-group">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="concepto12">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="a12" name="reparacion12" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="b12" name="cambio12" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="c12" name="mecanica12" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="d12" name="pintura12" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="e12" name="refaccion12" value="0" maxlength="5">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="concepto13">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="a13" name="reparacion13" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="b13" name="cambio13" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="c13" name="mecanica13" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="d13" name="pintura13" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="e13" name="refaccion13" value="0" maxlength="5">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="concepto14">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="a14" name="reparacion14" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="b14" name="cambio14" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="c14" name="mecanica14" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="d14" name="pintura14" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="e14" name="refaccion14" value="0" maxlength="5">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="concepto15">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="a15" name="reparacion15" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="b15" name="cambio15" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="c15" name="mecanica15" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="d15" name="pintura15" value="0" maxlength="5">
+                        </div>
+                        <div class="col-sm-1">
+                            <input type="text" class="form-control" id="e15" name="refaccion15" value="0" maxlength="5">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-3" style="text-align:right">
+                            <label for="concepto">Totales</label>
+                        </div>
+                        <div class="col-sm-1">
+                            <strong>$<output name="reparaciontotal" for="a1" style="display:inline"></output></strong>
+                        </div>
+                        <div class="col-sm-1">
+                            <strong>$<output name="cambiototal" for="b1 " style="display:inline"></output></strong>
+                        </div>
+                        <div class="col-sm-1">
+                            <strong>$<output name="mecanicatotal" for="c1" style="display:inline"></output></strong>
+                        </div>
+                        <div class="col-sm-1">
+                            <strong>$<output name="pinturatotal" for="d1" style="display:inline"></output></strong>
+                        </div>
+                        <div class="col-sm-1">
+                            <strong>$<output name="refacciontotal" for="e1" style="display:inline"></output></strong>
+                        </div>
+                    </div>                                  
+                </fieldset>
+                <br><br>
+                <fieldset>
+                    <div class="form-group">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-3" style="text-align:right">
+                            <label for="concepto">Total mano de obra</label>
+                        </div>
+                        <div class="col-sm-2">
+                            <strong>$<output name="totalmanoobra" for="a1" style="display:inline"></output></strong>
+                        </div>
+                    </div> 
+
+                    <div class="form-group">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-3" style="text-align:right">
+                            <label for="concepto">Total de refacciones</label>
+                        </div>
+                        <div class="col-sm-2">
+                            <strong>$<output name="totalrefacciones" for="a1" style="display:inline"></output></strong>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-3" style="text-align:right">
+                            <label for="concepto">Total de la valuaci&oacuten</label>
+                        </div>
+                        <div class="col-sm-2">
+                            <strong>$<output name="totalvaluacion" for="a1" style="display:inline"></output></strong>
+                        </div>
+                    </div>
+                </fieldset>
+                <hr><br><br>
+                <div class="row">
+                <div class="col-sm-6" style="text-align:center">
+                    <button type="submit" class="btn btn-success">Guardar</button>
+                </div>
+                <div class="col-sm-6" style="text-align:center">
+                    <button type="submit" class="btn btn-warning">Cancelar</button>    
+                </div>
+                </div>
+                <br><br>
+            </form>
+        </div>      
+    </body>
+</html>

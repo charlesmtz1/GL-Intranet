@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>GL Intranet | Nuevo inventario</title>
+        <!-- Bootstrap framework y Bootstrap Validator -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link href="//oss.maxcdn.com/jquery.bootstrapvalidator/0.5.2/css/bootstrapValidator.min.css" rel="stylesheet"></link>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="//oss.maxcdn.com/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js"></script>
+        <!-- Javascript definido por el webmaster -->
+        <script type="text/javascript" src="inventario.js"></script>       
+    </head>
+
+    <body style="background-color:lightgray">
+        <div class="jumbotron" style="">
+            <h1 style="text-align:center">Inventario de veh&iacuteculo</h1> 
+        </div>    
+        <div class="container" style="background-color:white">
+        <!-- Datos del consumidor -->
+        <!-- Fomulario para registrar los datos del cliente -->
+        <form id="inventarioForm" class="form-horizontal" action="Guardar Inventario.php" name="inventario" method="POST">
+            <fieldset>
+                <legend>Datos del cliente</legend>
+                <div class="form-group" >
+                    <label class="control-label col-sm-1" for="nombre">Nombre:</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" name="nombre" placeholder="Ingrese el nombre" pattern="[A-Za-z]"> 
+                    </div> 
+                    <label class="control-label col-sm-1" for="domicilio">Domicilio:</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" name="domicilio" placeholder="Ingrese el domicilio">    
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-1" for="colonia">Colonia:</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" name="colonia" placeholder="Ingrese la colonia" maxlength="25">    
+                    </div>
+                    <label class="control-label col-sm-1" for="municipio">Municipio:</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" name="municipio" placeholder="Ingrese el municipio" pattern="[A-Za-z]">
+                    </div>
+                    <label class="control-label col-sm-1" for="rfc">R.F.C.:</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" name="rfc" placeholder="Ingrese el RFC" maxlength="13">
+                    </div>
+                </div>
+                    
+                <div class="form-group">
+                    <label class="control-label col-sm-1" for="telefono">Tel&eacutefono:</label>
+                    <div class="col-sm-2">
+                        <input type="tel" class="form-control" name="telefono" placeholder="Número a 10 dígitos" maxlength="10" pattern="[0-9]{10}">
+                    </div>
+                    <label class="control-label col-sm-1" for="celular">Celular:</label>
+                    <div class="col-sm-2">
+                        <input type="tel" class="form-control" name="celular" placeholder="Número a 10 dígitos" maxlength="10" pattern="[0-9]{10}">   
+                    </div>
+                    <label class="control-label col-sm-1" for="email">E-Mail:</label>
+                    <div class="col-sm-3">
+                        <input id="email" type="email" class="form-control" name="email" placeholder="ejemplo@correo.com">
+                    </div>
+                </div>                        
+            </fieldset>
+            <br>
+            <!-- Datos del Vehiculo-->
+            <!-- Formulario para registrar el vehiculo del cliente -->
+            <fieldset>            
+            <legend>Datos del veh&iacuteculo</legend>
+                <div class="form-group">
+                    <label class="control-label col-sm-1" for="marca">Marca:</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" name="marca" placeholder="Ej. Nissan, Ford..." pattern="[A-Za-z]">    
+                    </div>
+                    <label class="control-label col-sm-1" for="tipo">Tipo:</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" name="tipo" placeholder="Ej. Versa, Focus...">    
+                    </div>
+                    <label class="control-label col-sm-1" for="modelo">Modelo:</label>
+                    <div class="col-sm-1">
+                        <input type="text" class="form-control" name="modelo" placeholder="Año" maxlength="4" pattern="[0-9]{4}">   
+                    </div>
+                    <label class="control-label col-sm-1" for="placas">Placas:</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" name="placas" placeholder="No escribir guión" maxlength="7">    
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-1" for="cia">Compa&ntildeia:</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" name="cia" placeholder="Ej. HDI" pattern="[A-Za-z]">    
+                    </div>
+                    <label class="control-label col-sm-1" for="siniestro">Siniestro:</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" name="siniestro" placeholder="Num. de siniestro">    
+                    </div>
+                    <label class="control-label col-sm-1" for="color">Color:</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" name="color" placeholder="Ej. Negro, tinto..." pattern="[A-Za-z]">
+                    </div>
+                    <label class="control-label col-sm-1" for="puertas">Puertas:</label>
+                    <div class="col-sm-1">
+                        <input type="text" class="form-control" name="puertas" maxlength="1" pattern="[0-9]{1}">                       
+                    </div>
+                </div>
+            
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="fecha">Fecha de ingreso:</label>
+                    <div class="col-sm-3">
+                        <input type="date" class="form-control" name="fecha" required>    
+                    </div>
+                </div>                
+            </fieldset>
+            <br>
+            <!-- Inventario -->
+            <!-- Rubros de inventario -->
+            <fieldset>
+                <legend>Inventario del veh&iacuteculo</legend>
+                <p>Marca la casilla correspondiente de acuerdo a los par&aacutemetros que cumple el veh&iacuteculo:</p>
+                <br>
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="kilometros">Kil&oacutemetros:</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" name="kilometros" pattern="[0-9]" maxlength="6">    
+                    </div>
+                    <label class="control-label col-sm-2" for="gasolina">Gasolina:</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" name="gasolina">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                         <div class="col-sm-5">
+                            <label class="control-label col-sm-4" for="llantaref">Llanta refacci&oacuten</label>
+                         <div class="radio">
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="llantaref" value="Si" required>Si</label>
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="llantaref" value="No">No</label>
+                         </div>   
+                         </div>         
+                        <div class="col-sm-5">
+                            <label class="control-label col-sm-4" for="emblemafrente">Emblema frente</label>
+                        <div class="radio">
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="emblemafrente" value="Si" required>Si</label>
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="emblemafrente" value="No">No</label>
+                        </div>
+                        </div>    
+                    </div>
+                </div>
+
+                 <div class="form-group">
+                    <div class="row">
+                         <div class="col-sm-5">
+                            <label class="control-label col-sm-4" for="gato">Gato</label>
+                         <div class="radio">
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="gato" value="Si" required>Si</label>
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="gato" value="No">No</label>
+                         </div>   
+                         </div>         
+                        <div class="col-sm-5">
+                            <label class="control-label col-sm-4" for="emblemacostado">Emblema costado</label>
+                        <div class="radio">
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="emblemacostado" value="Si" required>Si</label>
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="emblemacostado" value="No">No</label>
+                        </div>
+                        </div>    
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <label class="control-label col-sm-4" for="extinguidor">Extinguidor</label>
+                        <div class="radio">
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="extinguidor" value="Si" required>Si</label>
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="extinguidor" value="No">No</label>
+                        </div>
+                        </div>         
+                        <div class="col-sm-5">
+                            <label class="control-label col-sm-4" for="moldurader">Moldura derecha</label>
+                        <div class="radio">
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="moldurader" value="Si" required>Si</label>
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="moldurader" value="No">No</label>
+                        </div>
+                        </div>    
+                    </div>
+                </div>
+       
+                <div class="form-group">
+                    <div class="row">
+                         <div class="col-sm-5">
+                            <label class="control-label col-sm-4" for="estereo">Est&eacutereo</label>
+                         <div class="radio">
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="estereo" value="Si" required>Si</label>
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="estereo" value="No">No</label>
+                         </div>   
+                         </div>         
+                        <div class="col-sm-5">
+                            <label class="control-label col-sm-4" for="molduraizq">Moldura izquierda</label>
+                        <div class="radio">
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="molduraizq" value="Si" required>Si</label>
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="molduraizq" value="No">No</label>
+                        </div>
+                        </div>    
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                         <div class="col-sm-5">
+                            <label class="control-label col-sm-4" for="parabrisas">Parabrisas</label>
+                        <div class="radio">
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="parabrisas" value="Si" required>Si</label>
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="parabrisas" value="No">No</label>
+                        </div>
+                        </div>         
+                        <div class="col-sm-5">
+                            <label class="control-label col-sm-4" for="reflejantesder">Reflejantes der.</label>
+                        <div class="radio">
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="reflejantesder" value="Si" required>Si</label>
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="reflejantesder" value="No">No</label>
+                        </div>
+                        </div>    
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                         <div class="col-sm-5">
+                            <label class="control-label col-sm-4" for="herramienta">Herramienta</label>
+                         <div class="radio">
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="herramienta" value="Si" required>Si</label>
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="herramienta" value="No">No</label>
+                         </div>   
+                         </div>         
+                        <div class="col-sm-5">
+                            <label class="control-label col-sm-4" for="reflejantesdizq">Reflejantes izq.</label>
+                        <div class="radio">
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="reflejantesizq" value="Si" required>Si</label>
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="reflejantesizq" value="No">No</label>
+                        </div>
+                        </div>    
+                    </div>
+                </div>
+
+                 <div class="form-group">
+                    <div class="row">
+                         <div class="col-sm-5">
+                            <label class="control-label col-sm-4" for="espejoslat">Espejos laterales</label>
+                         <div class="radio">
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="espejoslat" value="Si" required>Si</label>
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="espejoslat" value="No">No</label>
+                         </div>   
+                         </div>         
+                        <div class="col-sm-5">
+                            <label class="control-label col-sm-4" for="espejoretro">Espejo retrovisor</label>
+                        <div class="radio">
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="espejoretro" value="Si" required>Si</label>
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="espejoretro" value="No">No</label>
+                        </div>
+                        </div>    
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                         <div class="col-sm-5">
+                            <label class="control-label col-sm-4" for="polveras">Polveras de rueda</label>
+                         <div class="radio">
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="polveras" value="Si" required>Si</label>
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="polveras" value="No">No</label>
+                         </div>   
+                         </div>         
+                        <div class="col-sm-5">
+                            <label class="control-label col-sm-4" for="tapon">Tap&oacuten gasolina</label>
+                        <div class="radio">
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="tapon" value="Si" required>Si</label>
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="tapon" value="No">No</label>
+                        </div>
+                        </div>    
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                         <div class="col-sm-5">
+                            <label class="control-label col-sm-4" for="tapetes">Tapete del. y tras.</label>
+                         <div class="radio">
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="tapetes" value="Si" required>Si</label>
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="tapetes" value="No">No</label>
+                         </div>   
+                         </div>         
+                        <div class="col-sm-5">
+                            <label class="control-label col-sm-4" for="limpiabrisas">Limpiabrisas</label>
+                        <div class="radio">
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="limpiabrisas" value="Si" required>Si</label>
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="limpiabrisas" value="No">No</label>
+                        </div>
+                        </div>    
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                         <div class="col-sm-5">
+                            <label class="control-label col-sm-4" for="cubreasientos">Cubreasientos</label>
+                         <div class="radio">
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="cubreasientos" value="Si" required>Si</label>
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="cubreasientos" value="No">No</label>
+                         </div>   
+                         </div>         
+                        <div class="col-sm-5">
+                            <label class="control-label col-sm-4" for="parasoles">Parasoles</label>
+                        <div class="radio">
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="parasoles" value="Si" required>Si</label>
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="parasoles" value="No">No</label>
+                        </div>
+                        </div>    
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                         <div class="col-sm-5">
+                            <label class="control-label col-sm-4" for="encendedor">Encendedor</label>
+                         <div class="radio">
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="encendedor" value="Si" required>Si</label>
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="encendedor" value="No">No</label>
+                         </div>   
+                         </div>         
+                        <div class="col-sm-5">
+                            <label class="control-label col-sm-4" for="claxon">Claxon</label>
+                        <div class="radio">
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="claxon" value="Si" required>Si</label>
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="claxon" value="No">No</label>
+                        </div>
+                        </div>    
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <label class="control-label col-sm-4" for="cajuela">Tapete de cajuela</label>
+                         <div class="radio">
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="cajuela" value="Si" required>Si</label>
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="cajuela" value="No">No</label>
+                         </div>   
+                         </div>           
+                        <div class="col-sm-5">
+                            <label class="control-label col-sm-4" for="lucesdel">Luces delanteras</label>
+                        <div class="radio">
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="lucesdel" value="Si" required>Si</label>
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="lucesdel" value="No">No</label>
+                        </div>
+                        </div>    
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                         <div class="col-sm-5">
+                            <label class="control-label col-sm-4" for="antena">Antena</label>
+                         <div class="radio">
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="antena" value="Si" required>Si</label>
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="antena" value="No">No</label>
+                         </div>   
+                         </div>         
+                        <div class="col-sm-5">
+                            <label class="control-label col-sm-4" for="lucestras">Luces traseras</label>
+                        <div class="radio">
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="lucestras" value="Si" required>Si</label>
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="lucestras" value="No">No</label>
+                        </div>
+                        </div>    
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                         <div class="col-sm-5">
+                            <label class="control-label col-sm-4" for="faros">Faros de niebla</label>
+                         <div class="radio">
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="faros" value="Si" required>Si</label>
+                            <label class="col-sm-2" style="text-align:right"><input type="radio" name="faros" value="No">No</label>
+                         </div>   
+                         </div>         
+                            
+                    </div>
+                </div>
+
+                <br>
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="objetos">Objetos puesto bajo resguardo:</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="objetos">    
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-3" for="observaciones">Observaciones:</label>
+                    <div class="col-sm-8">
+                        <input type="text" name="observaciones" class="form-control" >
+                    </div>
+                </div>
+            </fieldset>
+            <br>
+            <!--Clausulas de servicio-->
+            <p style="margin-left:10px; margin-right:10px">Este documento forma parte del contrato de prestaci&oacuten de servicio 
+            de reparaci&oacuten y/o mantenimiento de veh&iacuteculos, contenido al reverso de esta p&aacutegina. De no 
+            realizarse trabajo alguno y/o no aceptar las cl&aacuteusulas contractuales, <strong>el consumidor acepta pagar 
+            $60.00</strong> (sesenta pesos) diarios por concepto de dep&oacutesito del veh&iacuteculo objeto del presente 
+            contrato, desde su fecha de ingreso hasta el d&iacutea en que se lo lleve.</p>
+            <br><br>            
+            <div class="row">
+                <div class="col-sm-12" style="text-align:center">
+                    <button type="submit" class="btn btn-success">Guardar</button>
+                </div>          
+            </div>    
+            <br>
+        </form>
+        <div class="col-sm-12" style="text-align:center">
+            <a href="Menu.html"><button class="btn btn-warning">Cancelar</button></a>    
+        </div>         
+        </div>
+    </body>
+</html>
