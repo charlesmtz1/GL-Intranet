@@ -61,7 +61,7 @@
     }
 
     if (isset($_POST["guardar"])) {
-        
+        $folio = $_POST['folio'];
         include("../assets/includes/valida_presupuesto.php");
 
         $total_mano_obra = $costocr1 + $costopm1 + $costocr2 + $costopm2 + $costocr3 + $costopm3 + $costocr4 + $costopm4 + 
@@ -101,12 +101,6 @@
         mysqli_close($con);
     }
     
-    
-    
-    
-    
-
-
 
 ?>
 
