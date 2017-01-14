@@ -3,17 +3,7 @@
     if(empty($_SESSION['username'])){
         header("Location: ../login.php");
     }else{
-
-        $aux = 0;
-        $vehiculos_activos = null;
-
-        include("conexion_astillero.php");
-        $con = mysqli_connect($hostname,$user,$pass,$db);
-        $query = mysqli_query($con,"SELECT COUNT(STATUS) FROM vehiculos WHERE STATUS = 'Activo'");
-        $row = mysqli_fetch_array($query,MYSQLI_ASSOC);
-        mysqli_close($con);
         
-        $vehiculos_activos = $row["COUNT(STATUS)"];
 ?>
 
 <!DOCTYPE html>
@@ -57,8 +47,8 @@
             <div class="sidebar-collapse">
                 <ul class="nav" id="main-menu">
 				    <li class="text-center"><img src="../assets/img/logo.png" class="user-image img-responsive"/></li>
-                    <li><a class="active-menu" href="Menu.php"><i class="fa fa-user fa-3x"></i>Resumen</a>
-				    <li><a href="Vehiculos en taller.php"><i class="fa fa-dashboard fa-3x"></i>Veh&iacuteculos en taller</a></li>
+                    <li><a href="Menu.php"><i class="fa fa-user fa-3x"></i>Resumen</a>
+				    <li><a class="active-menu" href="Vehiculos en taller.php"><i class="fa fa-dashboard fa-3x"></i>Veh&iacuteculos en taller</a></li>
                     <li><a href="#"><i class="fa fa-edit fa-3x"></i>Inventarios<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li><a href="Nuevo Inventario.php">Nuevo inventario</a></li>
@@ -91,78 +81,17 @@
                 <div class="row">
                     <div class="col-md-12 col-sm-6 col-xs-6">           
 			            <div class="panel panel-back noti-box">
-                            <span class="icon-box bg-color-green set-icon"><i class="fa fa-user"></i></span>
+                            <span class="icon-box bg-color-green set-icon"><i class="fa fa-dashboard"></i></span>
                             <div class="text-box">
-                                <p class="main-text" style="text-align:center;">Resumen</p>
+                                <p class="main-text" style="text-align:center;">Vehiculos en taller</p>
                             </div>
                         </div>
                         <hr/>
                     </div>
                 </div>
                 <!-- /. ROW  -->
-                <div class="row">
-                    <div class="col-md-3 col-sm-6 col-xs-6">           
-			            <div class="panel panel-back noti-box">
-                            <span class="icon-box bg-color-green set-icon"><i class="fa fa-rocket"></i></span>
-                            <div class="text-box">
-                                <p class="main-text" style="text-align:center;">0</p><br>
-                                <p class="text-muted">Veh&iacuteculos esta semana</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-6 col-xs-6">           
-			            <div class="panel panel-back noti-box">
-                            <span class="icon-box bg-color-green set-icon"><i class="fa fa-dashboard"></i></span>
-                            <div class="text-box">
-                                <p class="main-text" style="text-align:center;"><?php echo $vehiculos_activos; ?></p><br>
-                                <p class="text-muted">Veh&iacuteculos en taller</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-6 col-xs-6">           
-			            <div class="panel panel-back noti-box">
-                            <span class="icon-box bg-color-green set-icon"><i class="fa fa-flag-checkered"></i></span>
-                            <div class="text-box">
-                                <p class="main-text" style="text-align:center;">0</p><br>
-                                <p class="text-muted">Veh&iacuteculos para entregar</p>
-                            </div>
-                        </div>
-		            </div>
-			    </div>
-                <!-- /. ROW  -->
-                <hr/>
-                <div class="row">
-                    <div class="col-md-6 col-sm-12 col-xs-12">           
-			            <div class="panel panel-back noti-box">
-                            <?php
-                                if($aux === 0)
-                                    echo "<span class='icon-box bg-color-green'><i class='fa fa-check'></i></span>";
-                                else
-                                    echo "<span class='icon-box bg-color-red'><i class='fa fa-warning'></i></span>";
-                            ?>
-                            <div class="text-box" >
-                                <p class="main-text">0 Presupuestos pendientes</p>
-                                <p class="text-muted">Deben generarse a la brevedad</p>
-                            </div>
-                        </div>
-		            </div>
-
-                    <div class="col-md-6 col-sm-12 col-xs-12">           
-			            <div class="panel panel-back noti-box">
-                            <?php
-                                if($aux === 0)
-                                    echo "<span class='icon-box bg-color-green'><i class='fa fa-check'></i></span>";
-                                else
-                                    echo "<span class='icon-box bg-color-red'><i class='fa fa-warning'></i></span>";
-                            ?>
-                            <div class="text-box" >
-                                <p class="main-text">0 Veh&iacuteculos atrasados </p>
-                                <p class="text-muted">Deben entregarse a la brevedad</p>
-                            </div>
-                        </div>
-		            </div>
-                </div>
-                <!-- /. ROW  -->
+                
+                
 
             </div>
             <!-- /. PAGE INNER  -->

@@ -1,91 +1,274 @@
 <?php
-    include("conexionleal.php");
+    session_start();
+    if(empty($_SESSION['username'])){
+        header("Location: ../login.php");
+    }else{
 
-    $con = mysql_connect($host, $user, $password) or die("Error al conectar con el servidor");
-    mysql_select_db($db, $con) or die("Error al conectar a la base de datos");
+    $buscar = null;
+    $folio = $marca = $tipo = $modelo = $placas = $cia = $siniestro = null;
+    $busqueda_exitosa = false;
+    $error_busqueda = null;  
 
-    $consulta = mysql_query("SELECT * FROM vehiculos WHERE FOLIO = '$_POST[busqueda]'", $con);
+    $concepto1 = $cr1 = $costocr1 = $pm1 = $costopm1 = $refaccion1 = null;
+    $concepto2 = $cr2 = $costocr2 = $pm2 = $costopm2 = $refaccion2 = null;
+    $concepto3 = $cr3 = $costocr3 = $pm3 = $costopm3 = $refaccion3 = null;
+    $concepto4 = $cr4 = $costocr4 = $pm4 = $costopm4 = $refaccion4 = null;
+    $concepto5 = $cr5 = $costocr5 = $pm5 = $costopm5 = $refaccion5 = null;
+    $concepto6 = $cr6 = $costocr6 = $pm6 = $costopm6 = $refaccion6 = null;
+    $concepto7 = $cr7 = $costocr7 = $pm7 = $costopm7 = $refaccion7 = null;
+    $concepto8 = $cr8 = $costocr8 = $pm8 = $costopm8 = $refaccion8 = null;
+    $concepto9 = $cr9 = $costocr9 = $pm9 = $costopm9 = $refaccion9 = null;
+    $concepto10 = $cr10 = $costocr10 = $pm10 = $costopm10 = $refaccion10 = null;
+    $concepto11 = $cr11 = $costocr11 = $pm11 = $costopm11 = $refaccion11 = null;
+    $concepto12 = $cr12 = $costocr12 = $pm12 = $costopm12 = $refaccion12 = null;
+    $concepto13 = $cr13 = $costocr13 = $pm13 = $costopm13 = $refaccion13 = null;
+    $concepto14 = $cr14 = $costocr14 = $pm14 = $costopm14 = $refaccion14 = null;
+    $concepto15 = $cr15 = $costocr15 = $pm15 = $costopm15 = $refaccion15 = null;
 
-    $folio = mysql_fetch_array($consulta);
+    $total_mano_obra = null;
+    $total_refacciones = null;
+    $total_valuacion = null; 
+
+    function test_input($dato){
+        $dato = trim($dato);
+        $dato = stripslashes($dato);
+        $dato = htmlspecialchars($dato);
+        return $dato;
+    }
+
+    if(isset($_POST["busqueda"])){
+        $buscar = $_POST['buscar'];
+        include("conexion_laureles.php");
+
+        $con = mysqli_connect($hostname, $user, $pass, $db) or die("Error al conectar con el servidor");
+        $query = mysqli_query($con, "SELECT * FROM vehiculos WHERE FOLIO = '$buscar'");
+        $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
+        mysqli_close($con);
+
+        if($row > 0){
+            $folio = $row['FOLIO'];
+            $marca = $row['MARCA'];
+            $tipo = $row['TIPO'];
+            $modelo = $row['MODELO'];
+            $placas = $row['PLACAS'];
+            $cia = $row['COMPANIA'];
+            $siniestro = $row['SINIESTRO'];
+            $busqueda_exitosa = true;
+        }
+        else {
+            $error_busqueda = "No se encuentra ningun folio con el número ingresado!";
+        }
+    }
+
+    if (isset($_POST["guardar"])) {
+        $folio = $_POST['folio'];
+        include("../assets/includes/valida_presupuesto.php");
+
+        $total_mano_obra = $costocr1 + $costopm1 + $costocr2 + $costopm2 + $costocr3 + $costopm3 + $costocr4 + $costopm4 + 
+                            $costocr5 + $costopm5 + $costocr6 + $costopm6 + $costocr7 + $costopm7 + $costocr8 + $costopm8 + 
+                            $costocr9 + $costopm9 + $costocr10 + $costopm10 + $costocr11 + $costopm11 + $costocr12 + $costopm12 + 
+                            $costocr13 + $costopm13 + $costocr14 + $costopm14 + $costocr15 + $costopm15;
+
+        $total_refacciones = $refaccion1 + $refaccion2 + $refaccion3 + $refaccion4 + $refaccion5 + $refaccion6 + $refaccion7 + 
+                            $refaccion8 + $refaccion9 + $refaccion10 + $refaccion11 + $refaccion12 + $refaccion13 + $refaccion14 + 
+                            $refaccion15;
+
+        $total_valuacion = $total_mano_obra + $total_refacciones;
+
+        include("conexion_laureles.php");
+
+        $con = mysqli_connect($hostname, $user, $pass, $db) or die("Error al conectar con el servidor");
+
+        mysqli_query($con, "UPDATE presupuestos SET STATUS='Realizado',
+                        CONCEPTO1='$concepto1', CAMREP1='$cr1', COSTOCR1='$costocr1', PINMEC1='$pm1', COSTOPM1='$costopm1', REFACCION1='$refaccion1',
+                        CONCEPTO2='$concepto2', CAMREP2='$cr2', COSTOCR2='$costocr2', PINMEC2='$pm2', COSTOPM2='$costopm2', REFACCION2='$refaccion2',
+                        CONCEPTO3='$concepto3', CAMREP3='$cr3', COSTOCR3='$costocr3', PINMEC3='$pm3', COSTOPM3='$costopm3', REFACCION3='$refaccion3',
+                        CONCEPTO4='$concepto4', CAMREP4='$cr4', COSTOCR4='$costocr4', PINMEC4='$pm4', COSTOPM4='$costopm4', REFACCION4='$refaccion4',
+                        CONCEPTO5='$concepto5', CAMREP5='$cr5', COSTOCR5='$costocr5', PINMEC5='$pm5', COSTOPM5='$costopm5', REFACCION5='$refaccion5',
+                        CONCEPTO6='$concepto6', CAMREP6='$cr6', COSTOCR6='$costocr6', PINMEC6='$pm6', COSTOPM6='$costopm6', REFACCION6='$refaccion6',
+                        CONCEPTO7='$concepto7', CAMREP7='$cr7', COSTOCR7='$costocr7', PINMEC7='$pm7', COSTOPM7='$costopm7', REFACCION7='$refaccion7',
+                        CONCEPTO8='$concepto8', CAMREP8='$cr8', COSTOCR8='$costocr8', PINMEC8='$pm8', COSTOPM8='$costopm8', REFACCION8='$refaccion8',
+                        CONCEPTO9='$concepto9', CAMREP9='$cr9', COSTOCR9='$costocr9', PINMEC9='$pm9', COSTOPM9='$costopm9', REFACCION9='$refaccion9',
+                        CONCEPTO10='$concepto10', CAMREP10='$cr10', COSTOCR10='$costocr10', PINMEC10='$pm10', COSTOPM10='$costopm10', REFACCION10='$refaccion10',
+                        CONCEPTO11='$concepto11', CAMREP11='$cr11', COSTOCR11='$costocr11', PINMEC11='$pm11', COSTOPM11='$costopm11', REFACCION11='$refaccion11',
+                        CONCEPTO12='$concepto12', CAMREP12='$cr12', COSTOCR12='$costocr12', PINMEC12='$pm12', COSTOPM12='$costopm12', REFACCION12='$refaccion12',
+                        CONCEPTO13='$concepto13', CAMREP13='$cr13', COSTOCR13='$costocr13', PINMEC13='$pm13', COSTOPM13='$costopm13', REFACCION13='$refaccion13',
+                        CONCEPTO14='$concepto14', CAMREP14='$cr14', COSTOCR14='$costocr14', PINMEC14='$pm14', COSTOPM14='$costopm14', REFACCION14='$refaccion14',
+                        CONCEPTO15='$concepto15', CAMREP15='$cr15', COSTOCR15='$costocr15', PINMEC15='$pm15', COSTOPM15='$costopm15', REFACCION15='$refaccion15',
+                        TOTALMANOOBRA='$total_mano_obra', TOTALREFACCIONES='$total_refacciones', TOTALVALUACION='$total_valuacion'
+                        WHERE FOLIO = '$folio'") or die("Error al guardar el inventario: ".mysqli_error($con));
+
+        mysqli_close($con);
+    }
+    
+
 ?>
 
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
     <head>
+        <title>GL Intranet | Men&uacute</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <title>GL Intranet | Presupuesto para taller</title>
+        <!-- BOOTSTRAP STYLES-->
+        <link href="../assets/css/bootstrap.css" rel="stylesheet" />
+        <!-- FONTAWESOME STYLES-->
+        <link href="../assets/css/font-awesome.css" rel="stylesheet" />
+        <!-- MORRIS CHART STYLES-->
+        <link href="../assets/js/morris/morris-0.4.3.min.css" rel="stylesheet" />
+        <!-- CUSTOM STYLES-->
+        <link href="../assets/css/custom.css" rel="stylesheet" />        
+        <!-- GOOGLE FONTS-->
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+        <style> .error{color:red;} .correcto{color:green}</style>
     </head>
-
-    <body style="background-color:lightgray">
-        <div class="jumbotron" style="text-align:center">
-            <h1>Presupuesto</h1>
-        </div>
-        <div class="container" style="background-color:white">
-            <form class="form-horizontal">
-                <fieldset>
-                    <legend>Datos del veh&iacuteculo</legend>
-                    <div class="form-group">
-                        <label class="control-label col-sm-1" for="marca">Marca:</label>
-                        <div class="col-sm-2">
-                            <input type="text" class="form-control" name="marca" value="<?php echo $folio['MARCA'] ?>" readonly >
+    
+    <body>
+    <div id="wrapper">
+        <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="Menu.php"><?php echo $_SESSION["sucursal"]; ?></a> 
+            </div>
+            <div style="color: white; padding: 15px 50px 5px 50px; float: right; font-size: 16px;"> 
+                Bienvenido <?php echo $_SESSION["username"]; ?> 
+                <img src="gordito.png" height="30px" width="30px">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                <a href="../logout.php" class="btn btn-success square-btn-adjust">Logout</a> 
+            </div>
+        </nav>
+        <!-- /. NAV TOP  -->
+        <nav class="navbar-default navbar-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav" id="main-menu">
+				    <li class="text-center"><img src="../assets/img/logo.png" class="user-image img-responsive"/></li>
+                    <li><a href="Menu.php"><i class="fa fa-user fa-3x"></i>Resumen</a>
+				    <li><a href="Vehiculos en taller.php"><i class="fa fa-dashboard fa-3x"></i>Veh&iacuteculos en taller</a></li>
+                    <li><a href="#"><i class="fa fa-edit fa-3x"></i>Inventarios<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a href="Nuevo Inventario.php">Nuevo inventario</a></li>
+                            <li><a href="Buscar Inventario.html">Buscar inventario</a></li>
+                            <li><a href="Historico inventarios.php">Hist&oacuterico de inventarios</a></li>
+                        </ul>
+                    </li>
+                    <li><a class="active-menu" href="#"><i class="fa fa-bar-chart-o fa-3x"></i>Presupuestos<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a href="Presupuesto Rapido.html">Nuevo presupuesto r&aacutepido</a></li>
+                            <li><a href="Presupuesto Taller.php">Nuevo presupuesto para taller</a></li>
+                            <li><a href="Buscar Presupuesto.html">Buscar presupuesto</a></li>
+                            <li><a href="Historial Presupuestos.html">Historial de presupuestos</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#"><i class="fa fa-square-o fa-3x"></i>Vales<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a href="Nuevo Vale.html">Nuevo vale</a></li>
+                            <li><a href="Presupuesto Taller.html">Buscar vales</a></li>
+                            <li><a href="Buscar Presupuesto.html">Hist&oacuterico de vales</a></li>
+                        </ul>
+                    </li>
+                    <li><a  href="table.html"><i class="fa fa-money fa-3x"></i>Gastos</a></li>
+                </ul>
+            </div>   
+        </nav>  
+        <!-- /. NAV SIDE  -->
+        <div id="page-wrapper" >
+            <div id="page-inner">
+                <div class="row">
+                    <div class="col-md-12 col-sm-6 col-xs-6">           
+			            <div class="panel panel-back noti-box">
+                            <span class="icon-box bg-color-green set-icon"><i class="fa fa-bar-chart-o"></i></span>
+                            <div class="text-box">
+                                <p class="main-text" style="text-align:center;">Nuevo presupuesto para taller</p>
+                            </div>
                         </div>
-                        <label class="control-label col-sm-1" for="tipo">Tipo:</label>
-                        <div class="col-sm-2">
-                            <input type="text" class="form-control" name="tipo" value="<?php echo $folio['TIPO'] ?>" readonly >
-                        </div>
-                        <label class="control-label col-sm-1" for="modelo">Modelo:</label>
-                        <div class="col-sm-1">
-                            <input type="text" class="form-control" name="modelo" value="<?php echo $folio['MODELO'] ?>" readonly >
-                        </div>
-                        <label class="control-label col-sm-1" for="placas">Placas:</label>
-                        <div class="col-sm-2">
-                        <input type="text" class="form-control" name="placas" value="<?php echo $folio['PLACAS'] ?>" readonly>    
-                        </div>
+                        <hr/>
                     </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-sm-1" for="cia">Compa&ntildeia:</label>
-                        <div class="col-sm-2">
-                            <input type="text" class="form-control" name="cia" value="<?php echo $folio['COMPANIA'] ?>" readonly >
+                </div>
+                <form class="form-horizontal" action="<?php $_SERVER["PHP_SELF"] ?>" method="POST">
+                    <fieldset>
+                        <p>Para realizar el presupuesto de un veh&iacuteculo, escriba el n&uacutemero de folio generado
+                            en su inventario:
+                        </p>
+                        <br>
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="buscar" placeholder="Escriba num. de folio">
+                            </div>
+                            <div class="col-sm-1">
+                                <button type="submit" class="btn btn-success" name="busqueda">Buscar</button>
+                            </div>
                         </div>
-                        <label class="control-label col-sm-1" for="siniestro">Siniestro:</label>
-                        <div class="col-sm-2">
-                            <input type="text" class="form-control" name="siniestro" value="<?php echo $folio['SINIESTRO'] ?>" readonly>    
+                    </fieldset>
+                </form>
+                <br><br>
+                <?php 
+                    if($busqueda_exitosa == true){
+                ?>
+                <form class="form-horizontal">
+                    <fieldset>
+                        <legend>Datos del veh&iacuteculo</legend>
+                        <div class="form-group">
+                            <label class="control-label col-sm-1" for="marca">Marca:</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" name="marca" value="<?php echo $marca ?>" readonly >
+                            </div>
+                            <label class="control-label col-sm-1" for="tipo">Tipo:</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" name="tipo" value="<?php echo $tipo ?>" readonly >
+                            </div>
+                            <label class="control-label col-sm-1" for="modelo">Modelo:</label>
+                            <div class="col-sm-1">
+                                <input type="text" class="form-control" name="modelo" value="<?php echo $modelo ?>" readonly >
+                            </div>
+                            <label class="control-label col-sm-1" for="placas">Placas:</label>
+                            <div class="col-sm-2">
+                            <input type="text" class="form-control" name="placas" value="<?php echo $placas ?>" readonly>    
+                            </div>
                         </div>
-                    </div>
-                </fieldset>
-            </form>
-            <br>
-            <form class="form-horizontal" oninput="
-                                        pinturamecanicatotal.value = parseFloat(b1.value) + parseFloat(b2.value) + parseFloat(b3.value) + parseFloat(b4.value)
-                                        + parseFloat(b5.value) + parseFloat(b6.value) + parseFloat(b7.value) + parseFloat(b8.value) + parseFloat(b9.value)
-                                        + parseFloat(b10.value) + parseFloat(b11.value) + parseFloat(b12.value) + parseFloat(b13.value) + parseFloat(b14.value)
-                                        + parseFloat(b15.value);
-                                        
-                                        refacciontotal.value = parseFloat(c1.value) + parseFloat(c2.value) + parseFloat(c3.value) + parseFloat(c4.value)
-                                        + parseFloat(c5.value) + parseFloat(c6.value) + parseFloat(c7.value) + parseFloat(c8.value) + parseFloat(c9.value)
-                                        + parseFloat(c10.value) + parseFloat(c11.value) + parseFloat(c12.value) + parseFloat(c13.value) + parseFloat(c14.value)
-                                        + parseFloat(c15.value);
-                                        
-                                        cambioreparaciontotal.value = parseFloat(a1.value) + parseFloat(a2.value) + parseFloat(a3.value) + parseFloat(a4.value)
-                                        + parseFloat(a5.value) + parseFloat(a6.value) + parseFloat(a7.value) + parseFloat(a8.value) + parseFloat(a9.value)
-                                        + parseFloat(a10.value) + parseFloat(a11.value) + parseFloat(a12.value) + parseFloat(a13.value) + parseFloat(a14.value)
-                                        + parseFloat(a15.value);
-                                        
-                                        totalmanoobra.value = parseFloat(cambioreparaciontotal.value) + parseFloat(pinturamecanicatotal.value);
 
-                                        totalrefacciones.value = parseFloat(refacciontotal.value);
+                        <div class="form-group">
+                            <label class="control-label col-sm-1" for="cia">Compa&ntildeia:</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" name="cia" value="<?php echo $cia ?>" readonly >
+                            </div>
+                            <label class="control-label col-sm-1" for="siniestro">Siniestro:</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" name="siniestro" value="<?php echo $siniestro ?>" readonly>    
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+                <br>
+                <form class="form-horizontal" oninput="
+                                            pinturamecanicatotal.value = parseFloat(b1.value) + parseFloat(b2.value) + parseFloat(b3.value) + parseFloat(b4.value)
+                                            + parseFloat(b5.value) + parseFloat(b6.value) + parseFloat(b7.value) + parseFloat(b8.value) + parseFloat(b9.value)
+                                            + parseFloat(b10.value) + parseFloat(b11.value) + parseFloat(b12.value) + parseFloat(b13.value) + parseFloat(b14.value)
+                                            + parseFloat(b15.value);
+                                            
+                                            refacciontotal.value = parseFloat(c1.value) + parseFloat(c2.value) + parseFloat(c3.value) + parseFloat(c4.value)
+                                            + parseFloat(c5.value) + parseFloat(c6.value) + parseFloat(c7.value) + parseFloat(c8.value) + parseFloat(c9.value)
+                                            + parseFloat(c10.value) + parseFloat(c11.value) + parseFloat(c12.value) + parseFloat(c13.value) + parseFloat(c14.value)
+                                            + parseFloat(c15.value);
+                                            
+                                            cambioreparaciontotal.value = parseFloat(a1.value) + parseFloat(a2.value) + parseFloat(a3.value) + parseFloat(a4.value)
+                                            + parseFloat(a5.value) + parseFloat(a6.value) + parseFloat(a7.value) + parseFloat(a8.value) + parseFloat(a9.value)
+                                            + parseFloat(a10.value) + parseFloat(a11.value) + parseFloat(a12.value) + parseFloat(a13.value) + parseFloat(a14.value)
+                                            + parseFloat(a15.value);
+                                            
+                                            totalmanoobra.value = parseFloat(cambioreparaciontotal.value) + parseFloat(pinturamecanicatotal.value);
 
-                                        totalvaluacion.value = parseFloat(totalmanoobra.value) + parseFloat(totalrefacciones.value);
-                                        "
-                                 action="Guardar Presupuesto.php" method="POST">
-                <fieldset>
+                                            totalrefacciones.value = parseFloat(refacciontotal.value);
+
+                                            totalvaluacion.value = parseFloat(totalmanoobra.value) + parseFloat(totalrefacciones.value);
+                                            "
+                                    action="<?php $_SERVER["PHP_SELF"] ?>" method="POST">
+                    <fieldset>
                     <legend style="text-align:center">Costo por pieza</legend>
-                    <input type="hidden" name="folio" value="<?php echo $folio['FOLIO'] ?>">
+                    <input type="hidden" name="folio" value="<?php echo $folio ?>">
                     <div class="form-group" style="text-align:center">
                         <div class="col-sm-1"></div>
                         <div class="col-sm-3">
@@ -191,7 +374,7 @@
                             <input type="text" class="form-control" id="c3" name="refaccion3" value="0" maxlength="5">
                         </div>
                     </div>
-
+                    
                     <div class="form-group">
                         <div class="col-sm-1"></div>
                         <div class="col-sm-3">
@@ -544,50 +727,64 @@
                             <strong>$<output name="refacciontotal" for="c1" style="display:inline"></output></strong>
                         </div>
                     </div>                                  
-                </fieldset>
-                <br><br>
-                <fieldset>
+                    </fieldset>
+                    <br>
+                    <fieldset>
                     <div class="form-group">
-                        <div class="col-sm-2"></div>
-                        <div class="col-sm-3" style="text-align:right">
-                            <label for="concepto">Total mano de obra</label>
-                        </div>
-                        <div class="col-sm-2">
-                            <strong>$<output name="totalmanoobra" for="a1" style="display:inline"></output></strong>
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-3">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <th colspan="2">Totales del presupuesto</th>
+                                </thead>
+                                <tr>
+                                    <td><label for="concepto">Total mano de obra</label></td>
+                                    <td><strong>$<output name="totalmanoobra" for="a1" style="display:inline"></output></strong></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="concepto">Total de refacciones</label></td>
+                                    <td><strong>$<output name="totalrefacciones" for="a1" style="display:inline"></output></strong></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="concepto">Total de la valuaci&oacuten</label></td>
+                                    <td><strong>$<output name="totalvaluacion" for="a1" style="display:inline"></output></strong></td>
+                                </tr>
+                            </table>
                         </div>
                     </div> 
-
-                    <div class="form-group">
-                        <div class="col-sm-2"></div>
-                        <div class="col-sm-3" style="text-align:right">
-                            <label for="concepto">Total de refacciones</label>
-                        </div>
-                        <div class="col-sm-2">
-                            <strong>$<output name="totalrefacciones" for="a1" style="display:inline"></output></strong>
+                    </fieldset>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-12" style="text-align:center">
+                            <button type="submit" class="btn btn-success" name="guardar">Guardar</button>
                         </div>
                     </div>
-
-                    <div class="form-group">
-                        <div class="col-sm-2"></div>
-                        <div class="col-sm-3" style="text-align:right">
-                            <label for="concepto">Total de la valuaci&oacuten</label>
-                        </div>
-                        <div class="col-sm-2">
-                            <strong>$<output name="totalvaluacion" for="a1" style="display:inline"></output></strong>
-                        </div>
-                    </div>
-                </fieldset>
-                <hr><br><br>
-                <div class="row">
-                    <div class="col-sm-12" style="text-align:center">
-                        <button type="submit" class="btn btn-success">Guardar</button>
-                    </div>
-                </div>
-                <br><br>
-            </form>
-            <div class="col-sm-12" style="text-align:center">
-                <a href="Menu.html"><button class="btn btn-warning">Cancelar</button></a>    
+                    <br>
+                </form>
+                <?php 
+                }else {
+                    echo "<span class='error' style='font-size:20px'>" . $error_busqueda ."</span>";
+                } ?>
             </div>
-        </div>      
+            <!-- /. PAGE INNER  -->
+        </div>
+        <!-- /. PAGE WRAPPER  -->   
+    </div>
+    <!-- /. WRAPPER  -->
+
+        <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
+        <!-- JQUERY SCRIPTS -->
+        <script src="../assets/js/jquery-1.10.2.js"></script>
+        <!-- BOOTSTRAP SCRIPTS -->
+        <script src="../assets/js/bootstrap.min.js"></script>
+        <!-- METISMENU SCRIPTS -->
+        <script src="../assets/js/jquery.metisMenu.js"></script>
+        <!-- MORRIS CHART SCRIPTS -->
+        <script src="../assets/js/morris/raphael-2.1.0.min.js"></script>
+        <script src="../assets/js/morris/morris.js"></script>
+        <!-- CUSTOM SCRIPTS -->
+        <script src="../assets/js/custom.js"></script>
     </body>
 </html>
+
+<?php } ?>
