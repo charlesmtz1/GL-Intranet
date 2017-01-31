@@ -32,7 +32,7 @@ body {
     margin:10px 20px 10px 0px;
     background-color:#fff!important;
     padding:10px;
-    min-height:750px;
+    min-height:1000px;
 }
 
 .text-center {
@@ -139,11 +139,11 @@ font-size: 40px;
     padding:20px;
     font-size:20px;
     font-weight:500;
-      -webkit-border-radius: 0px;
--moz-border-radius: 0px;
-border-radius: 0px;
-background-color:#2EA7EB;
-color:#fff;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    background-color:#2EA7EB;
+    color:#fff;
 }
     .back-dash p {
         padding-top:16px;
@@ -359,7 +359,7 @@ line-height: 1.428571429;
      #page-wrapper{
                margin: 0 0 0 260px;
         padding: 15px 30px;
-        min-height: 750px;
+        min-height: 1050px;
 		
     }
 	

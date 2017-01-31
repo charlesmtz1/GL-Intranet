@@ -66,7 +66,7 @@
                     </li>
                     <li><a href="#"><i class="fa fa-square-o fa-3x"></i>Vales<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li><a href="Nuevo Vale.html">Nuevo vale</a></li>
+                            <li><a href="Nuevo Vale.php">Nuevo vale</a></li>
                             <li><a href="Presupuesto Taller.html">Buscar vales</a></li>
                             <li><a href="Buscar Presupuesto.html">Hist&oacuterico de vales</a></li>
                         </ul>

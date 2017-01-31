@@ -91,13 +91,17 @@
                 <div class="col-sm-4">
                     <form id="loginForm" action=" <?php $_SERVER["PHP_SELF"] ?>" method="POST">
                         <div class="form-group has-feedback">
-                            <i class="glyphicon glyphicon-user form-control-feedback"></i>
-                            <input type="text" class="form-control" name="usuario" placeholder="Usuario">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                <input type="text" class="form-control" name="usuario" placeholder="Usuario">
+                            </div>
                             <span class="error"> <?php echo $usererror; ?></span>
                         </div>
                         <div class="form-group has-feedback">
-                            <i class="glyphicon glyphicon-lock form-control-feedback"></i>
-                            <input type="password" class="form-control" name="password" placeholder="Contraseña">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                <input type="password" class="form-control" name="password" placeholder="Contraseña">
+                            </div>
                             <span class="error"> <?php echo $passerror; ?></span>
                         </div>
                         <br>
