@@ -57,13 +57,13 @@
 
             $con = mysqli_connect($hostname, $user, $pass, $db) or die("Error al conectar con el servidor");
             
-            mysqli_query($con, "INSERT INTO clientes (NOMBRE, DOMICILIO, COLONIA, MUNICIPIO, RFC, TELEFONO, CELULAR, EMAIL) 
-                    VALUES ('$nombre','$domicilio','$colonia','$municipio','$rfc','$telefono','$celular','$email')")
-                            or die("Error al guardar los datos del cliente: ".mysqli_error($con));
-
             mysqli_query($con, "INSERT INTO vehiculos (MARCA, TIPO, MODELO, PLACAS, COMPANIA, SINIESTRO, COLOR, PUERTAS, FECHA, STATUS)
                     VALUES ('$marca','$tipo','$modelo','$placas', '$cia','$siniestro','$color','$puertas','$fecha', 'Activo')")
                             or die("Error al guardar los datos del vehiculo: ".mysqli_error($con));
+
+            mysqli_query($con, "INSERT INTO clientes (NOMBRE, DOMICILIO, COLONIA, MUNICIPIO, RFC, TELEFONO, CELULAR, EMAIL) 
+                    VALUES ('$nombre','$domicilio','$colonia','$municipio','$rfc','$telefono','$celular','$email')")
+                            or die("Error al guardar los datos del cliente: ".mysqli_error($con));
 
             mysqli_query($con, "INSERT INTO inventarios (KILOMETROS, GASOLINA, LLANTAREF, EMBLEMAFRENTE, GATO, EMBLEMACOSTADO, 
                                 EXTINGUIDOR, MOLDURADER, ESTEREO, MOLDURAIZQ, PARABRISAS, REFLEJANTESDER, HERRAMIENTA,

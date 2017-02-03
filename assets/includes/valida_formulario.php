@@ -167,7 +167,19 @@
         }else {
             $fecha = $_POST["fecha"];
             $fecha_aux = getdate();
-            $hoy = $fecha_aux['year'] . "-" . $fecha_aux['mon'] . "-" . $fecha_aux['mday'];
+            
+            if ($fecha_aux['mon'] < 10) {
+                $hoy = $fecha_aux['year'] . "-0" . $fecha_aux['mon'] . "-" . $fecha_aux['mday'];
+                if ($fecha_aux['mday'] < 10) {
+                    $hoy = $fecha_aux['year'] . "-0" . $fecha_aux['mon'] . "-0" . $fecha_aux['mday'];
+                }   
+            }else {
+                $hoy = $fecha_aux['year'] . "-" . $fecha_aux['mon'] . "-" . $fecha_aux['mday'];
+                if ($fecha_aux['mday'] < 10) {
+                    $hoy = $fecha_aux['year'] . "-" . $fecha_aux['mon'] . "-0" . $fecha_aux['mday'];
+                }  
+            }
+
             $validacion++;
             if ($fecha < $hoy) {
                 $error_fecha = "La fecha de ingreso no es valida!"; 
