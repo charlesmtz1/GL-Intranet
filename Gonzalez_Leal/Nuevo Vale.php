@@ -9,6 +9,10 @@
     $busqueda_exitosa = false;
     $error_busqueda = null;
 
+    $concepto1 = $concepto2 = $concepto3 = $concepto4 = $concepto5 = null;
+    $monto1 = $monto2 = $monto3 = $monto4 = $monto5 = null;
+    $montototal = null;
+
     function test_input($dato){
         $dato = trim($dato);
         $dato = stripslashes($dato);
@@ -38,6 +42,23 @@
         else {
             $error_busqueda = "No se encuentra ningun folio con el número ingresado!";
         }
+    }
+
+    if (isset($_POST["guardar"])) {
+        $folio = $_POST['folio'];
+        include("../assets/includes/valida_vale.php");
+
+        $montototal = $monto1 + $monto2 + $monto3 + $monto4 + $monto5;
+
+        include("conexion_leal.php");
+
+        $con = mysqli_connect($hostname, $user, $pass, $db) or die("Error al conectar con el servidor");
+
+        mysqli_query($con, "INSERT INTO vales (FOLIO, CONCEPTO1, COSTO1, CONCEPTO2, COSTO2, CONCEPTO3, COSTO3, CONCEPTO4, COSTO4, CONCEPTO5, COSTO5, TOTAL)
+                                VALUES('$folio','$concepto1','$monto1','$concepto2','$monto2','$concepto3','$monto3','$concepto4',
+                                            '$monto4','$concepto5','$monto5','$montototal')") or die("Error al guardar el inventario: ".mysqli_error($con));
+
+        mysqli_close($con);
     }
 
 ?>
@@ -103,7 +124,7 @@
                     </li>
                     <li><a class="active-menu" href="#"><i class="fa fa-square-o fa-3x"></i>Vales<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li><a href="Nuevo Vale.html">Nuevo vale</a></li>
+                            <li><a href="Nuevo Vale.php">Nuevo vale</a></li>
                             <li><a href="Presupuesto Taller.html">Buscar vales</a></li>
                             <li><a href="Buscar Presupuesto.html">Hist&oacuterico de vales</a></li>
                         </ul>
@@ -151,30 +172,30 @@
                     <div class="form-group">
                         <label class="control-label col-sm-1" for="marca">Marca:</label>
                         <div class="col-sm-2">
-                            <input type="text" class="form-control" name="marca" readonly >
+                            <input type="text" class="form-control" name="marca" value="<?php echo $marca; ?>" readonly >
                         </div>
                         <label class="control-label col-sm-1" for="tipo">Tipo:</label>
                         <div class="col-sm-2">
-                            <input type="text" class="form-control" name="tipo" readonly >
+                            <input type="text" class="form-control" name="tipo" value="<?php echo $tipo; ?>" readonly >
                         </div>
                         <label class="control-label col-sm-1" for="modelo">Modelo:</label>
                         <div class="col-sm-1">
-                            <input type="text" class="form-control" name="modelo" readonly >
+                            <input type="text" class="form-control" name="modelo" value="<?php echo $modelo; ?>" readonly >
                         </div>
                         <label class="control-label col-sm-1" for="placas">Placas:</label>
                         <div class="col-sm-2">
-                        <input type="text" class="form-control" name="placas" readonly>    
+                        <input type="text" class="form-control" name="placas" value="<?php echo $placas; ?>" readonly>    
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="control-label col-sm-1" for="cia">Compa&ntildeia:</label>
                         <div class="col-sm-2">
-                            <input type="text" class="form-control" name="cia" readonly >
+                            <input type="text" class="form-control" name="cia" value="<?php echo $cia; ?>" readonly >
                         </div>
                         <label class="control-label col-sm-1" for="siniestro">Siniestro:</label>
                         <div class="col-sm-2">
-                            <input type="text" class="form-control" name="siniestro" readonly>    
+                            <input type="text" class="form-control" name="siniestro" value="<?php echo $siniestro; ?>" readonly>    
                         </div>
                     </div>
                 </fieldset>
@@ -182,9 +203,10 @@
             <br>
             <form class="form-horizontal" oninput="montototal.value=parseFloat(a1.value) + parseFloat(a2.value) + parseFloat(a3.value) 
                                                     + parseFloat(a4.value) + parseFloat(a5.value);"
-                                 action="Menu.html" method="POST">
+                                 action="<?php $_SERVER["PHP_SELF"] ?>" method="POST">
                 <fieldset>
                     <legend style="text-align:center">Generaci&oacuten de vale</legend>
+                    <input type="hidden" name="folio" value="<?php echo $folio ?>">
                     <div class="form-group" style="text-align:center">
                         <div class="col-sm-2"></div>
                         <div class="col-sm-7">

@@ -47,42 +47,74 @@
         return $dato;
     }
 
+
+    include("conexion_leal.php");
+
+    $con = new mysqli($hostname, $user, $pass, $db) or die("Error al conectar con el servidor");
+
+    $consulta_folio = "SELECT * FROM vehiculos WHERE FOLIO = (SELECT MAX(FOLIO) FROM vehiculos)";
+    $ultimo_folio = $con->query($consulta_folio);
+
+    if ($ultimo_folio->num_rows > 0) {
+        while ($row = $ultimo_folio->fetch_assoc()) {
+            $folio = $row["FOLIO"];
+        }
+    }
+    
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
        include("../assets/includes/valida_formulario.php");
 
         if($validacion === 44){
-
-            include("conexion_leal.php");
-
-            $con = mysqli_connect($hostname, $user, $pass, $db) or die("Error al conectar con el servidor");
+         
+            $crea_vehiculo = "INSERT INTO vehiculos (MARCA, TIPO, MODELO, PLACAS, COMPANIA, SINIESTRO, COLOR, PUERTAS, FECHA, STATUS)
+                    VALUES ('$marca','$tipo','$modelo','$placas', '$cia','$siniestro','$color','$puertas','$fecha', 'Activo')";
             
-            mysqli_query($con, "INSERT INTO vehiculos (MARCA, TIPO, MODELO, PLACAS, COMPANIA, SINIESTRO, COLOR, PUERTAS, FECHA, STATUS)
-                    VALUES ('$marca','$tipo','$modelo','$placas', '$cia','$siniestro','$color','$puertas','$fecha', 'Activo')")
-                            or die("Error al guardar los datos del vehiculo: ".mysqli_error($con));
+            if($con->query($crea_vehiculo) === TRUE){
+                $nuevo_folio = $con->insert_id;
 
-            mysqli_query($con, "INSERT INTO clientes (NOMBRE, DOMICILIO, COLONIA, MUNICIPIO, RFC, TELEFONO, CELULAR, EMAIL) 
-                    VALUES ('$nombre','$domicilio','$colonia','$municipio','$rfc','$telefono','$celular','$email')")
-                            or die("Error al guardar los datos del cliente: ".mysqli_error($con));
+                //
+                $crea_cliente = "INSERT INTO clientes (FOLIO, NOMBRE, DOMICILIO, COLONIA, MUNICIPIO, RFC, TELEFONO, CELULAR, EMAIL) 
+                    VALUES ('$nuevo_folio','$nombre','$domicilio','$colonia','$municipio','$rfc','$telefono','$celular','$email')";
 
-            mysqli_query($con, "INSERT INTO inventarios (KILOMETROS, GASOLINA, LLANTAREF, EMBLEMAFRENTE, GATO, EMBLEMACOSTADO, 
+                if ($con->query($crea_cliente) === TRUE) {
+                    # code...
+                } else {
+                   die("Error al guardar los datos del cliente: ".mysqli_error($con)); 
+                }
+                
+//----------------------------------------Crea inventario en base de datos--------------------------------------------------------------------
+                $crea_inventario = "INSERT INTO inventarios (FOLIO, KILOMETROS, GASOLINA, LLANTAREF, EMBLEMAFRENTE, GATO, EMBLEMACOSTADO, 
                                 EXTINGUIDOR, MOLDURADER, ESTEREO, MOLDURAIZQ, PARABRISAS, REFLEJANTESDER, HERRAMIENTA,
                                 REFLEJANTESIZQ, ESPEJOSLAT, ESPEJORETRO, POLVERAS, TAPON, TAPETES, LIMPIABRISAS, 
                                 CUBREASIENTOS, PARASOLES, ENCENDEDOR, CLAXON, CAJUELA, LUCESDEL, ANTENA, LUCESTRAS,
                                 FAROS, OBJETOS, OBSERVACIONES) 
-                    VALUES ('$kilometros','$gasolina','$llantaref','$emblemafrente','$gato','$emblemacostado','$extinguidor',
+                    VALUES ('$nuevo_folio','$kilometros','$gasolina','$llantaref','$emblemafrente','$gato','$emblemacostado','$extinguidor',
                             '$moldurader','$estereo','$molduraizq','$parabrisas','$reflejantesder','$herramienta',
                             '$reflejantesizq','$espejoslat','$espejoretro','$polveras','$tapon','$tapetes', '$limpiabrisas',
                             '$cubreasientos','$parasoles','$encendedor','$claxon','$cajuela','$lucesdel','$antena',
-                            '$lucestras','$faros','$objetos','$observaciones')") 
-                            or die("Error al guardar los datos del inventario: ".mysqli_error($con));
+                            '$lucestras','$faros','$objetos','$observaciones')";
 
-            mysqli_query($con, "INSERT INTO presupuestos (STATUS) VALUES ('Presupuesto sin realizar')")
-                            or die("Error al guardar los datos para presupuesto: ".mysqli_error($con));
-            
-            mysqli_close($con);
+                if ($con->query($crea_inventario) === TRUE) {
+                    # code...
+                } else {
+                   die("Error al guardar los datos del inventario: ".mysqli_error($con)); 
+                }
 
-            $inventario_correcto = "Inventario guardado correctamente! Número de folio generado: 0";
+//----------------------------------------Crea presupuesto en la bse de datos-------------------------------------------------------------------
+                $crea_presupuesto = "INSERT INTO presupuestos (FOLIO, STATUS) VALUES ('$nuevo_folio','Presupuesto sin realizar')";
+
+                if ($con->query($crea_presupuesto) === TRUE) {
+                    # code...
+                } else {
+                   die("Error al guardar los datos para presupuesto: ".mysqli_error($con)); 
+                }
+
+            }else
+                die("Error al guardar los datos del vehiculo: ".mysqli_error($con));  
+
+
+            $inventario_correcto = "Inventario guardado correctamente! Número de folio generado: " . $nuevo_folio;
 
         }else {
             $inventario_erroneo = "El inventario contiene errores, favor de verificarlo."; 
@@ -184,7 +216,7 @@
                         ?>
                     </div>
                     <div class="col-sm-2">           
-			                <legend>Folio: 0</legend>
+			                <legend>Folio: <?php echo $folio + 1; ?></legend>
                     </div>
                 </div>
 

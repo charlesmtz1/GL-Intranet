@@ -5,15 +5,24 @@
     }else{
 
         $aux = 0;
+        $presupuestos_pendientes = null;
         $vehiculos_activos = null;
 
         include("conexion_leal.php");
         $con = mysqli_connect($hostname,$user,$pass,$db);
         $query = mysqli_query($con,"SELECT COUNT(STATUS) FROM vehiculos WHERE STATUS = 'Activo'");
         $row = mysqli_fetch_array($query,MYSQLI_ASSOC);
-        mysqli_close($con);
         
         $vehiculos_activos = $row["COUNT(STATUS)"];
+
+
+        $query = mysqli_query($con,"SELECT COUNT(STATUS) FROM presupuestos WHERE STATUS = 'Presupuesto sin realizar'");
+        $row = mysqli_fetch_array($query,MYSQLI_ASSOC);
+        
+        $presupuestos_pendientes = $row["COUNT(STATUS)"];
+
+        mysqli_close($con);
+
 ?>
 
 <!DOCTYPE html>
@@ -135,13 +144,13 @@
                     <div class="col-md-6 col-sm-12 col-xs-12">           
 			            <div class="panel panel-back noti-box">
                             <?php
-                                if($aux === 0)
+                                if($presupuestos_pendientes === 0)
                                     echo "<span class='icon-box bg-color-green'><i class='fa fa-check'></i></span>";
                                 else
                                     echo "<span class='icon-box bg-color-red'><i class='fa fa-warning'></i></span>";
                             ?>
                             <div class="text-box" >
-                                <p class="main-text">0 Presupuestos pendientes</p>
+                                <p class="main-text"><?php echo $presupuestos_pendientes; ?> Presupuestos pendientes</p>
                                 <p class="text-muted">Deben generarse a la brevedad</p>
                             </div>
                         </div>
