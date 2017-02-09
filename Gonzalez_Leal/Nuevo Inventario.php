@@ -65,7 +65,7 @@
         
        include("../assets/includes/valida_formulario.php");
 
-        if($validacion === 44){
+        if($validacion === 50){
          
             $crea_vehiculo = "INSERT INTO vehiculos (MARCA, TIPO, MODELO, PLACAS, COMPANIA, SINIESTRO, COLOR, PUERTAS, FECHA, STATUS)
                     VALUES ('$marca','$tipo','$modelo','$placas', '$cia','$siniestro','$color','$puertas','$fecha', 'Activo')";
@@ -73,7 +73,31 @@
             if($con->query($crea_vehiculo) === TRUE){
                 $nuevo_folio = $con->insert_id;
 
-                //
+//---------------------------------------Crea expediente y almacena fotografias---------------------------------------------------
+                $expediente = $nuevo_folio."-".$marca."-".$tipo."-".$modelo;
+                mkdir("C:/Bitnami/apache2/htdocs/GL-Intranet/Gonzalez_Leal/expedientes/".$expediente."", 0777);
+                $foto_expediente = "expedientes/".$expediente."/";
+                opendir($foto_expediente);
+
+                copy($_FILES['foto1']['tmp_name'], $foto_expediente.$_FILES['foto1']['name']);
+                copy($_FILES['foto2']['tmp_name'], $foto_expediente.$_FILES['foto2']['name']);
+                copy($_FILES['foto3']['tmp_name'], $foto_expediente.$_FILES['foto3']['name']);
+                copy($_FILES['foto4']['tmp_name'], $foto_expediente.$_FILES['foto4']['name']);
+                copy($_FILES['foto5']['tmp_name'], $foto_expediente.$_FILES['foto5']['name']);
+                copy($_FILES['foto6']['tmp_name'], $foto_expediente.$_FILES['foto6']['name']);
+
+                $guarda_fotos = "UPDATE vehiculos SET FOTO1 = '$foto_expediente.$_FILES[foto1][name]', FOTO2 = '$foto_expediente.$_FILES[foto2][name]',
+                                    FOTO3 = '$foto_expediente.$_FILES[foto3][name]', FOTO4 = '$foto_expediente.$_FILES[foto4][name]', 
+                                    FOTO5 = '$foto_expediente.$_FILES[foto5][name]', FOTO6 = '$foto_expediente.$_FILES[foto6][name]'
+                                    WHERE FOLIO = '$nuevo_folio'";
+
+                if ($con->query($guarda_fotos) === TRUE) {
+                    # code...
+                } else {
+                   die("Error al guardar las fotos del vehiculo: ".mysqli_error($con)); 
+                }
+
+//-----------------------------------------Almacena datos del cliente--------------------------------------------------------------------------
                 $crea_cliente = "INSERT INTO clientes (FOLIO, NOMBRE, DOMICILIO, COLONIA, MUNICIPIO, RFC, TELEFONO, CELULAR, EMAIL) 
                     VALUES ('$nuevo_folio','$nombre','$domicilio','$colonia','$municipio','$rfc','$telefono','$celular','$email')";
 
@@ -101,7 +125,7 @@
                    die("Error al guardar los datos del inventario: ".mysqli_error($con)); 
                 }
 
-//----------------------------------------Crea presupuesto en la bse de datos-------------------------------------------------------------------
+//----------------------------------------Crea presupuesto en la base de datos-------------------------------------------------------------------
                 $crea_presupuesto = "INSERT INTO presupuestos (FOLIO, STATUS) VALUES ('$nuevo_folio','Presupuesto sin realizar')";
 
                 if ($con->query($crea_presupuesto) === TRUE) {
@@ -222,7 +246,7 @@
 
                 <!-- /. ROW  -->
 
-        <form id="inventarioForm" class="form-horizontal" action="<?php $_SERVER["PHP_SELF"]?>" name="inventario" method="POST">
+        <form id="inventarioForm" class="form-horizontal" action="<?php $_SERVER["PHP_SELF"]?>" name="inventario" method="POST" enctype="multipart/form-data">
             <fieldset>
                 <legend>Datos del cliente</legend>
                 <div class="form-group" >

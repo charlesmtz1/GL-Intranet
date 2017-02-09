@@ -434,5 +434,42 @@
         }else {
             $observaciones = test_input($_POST["observaciones"]);
         }
+
+        if ($_FILES['foto1']['tmp_name'] == null) {
+            $error_foto1 = "Se requiere cargar una foto!";
+        } else {
+            $validacion++;
+        }
+
+        if ($_FILES['foto2']['tmp_name'] == null) {
+            $error_foto2 = "Se requiere cargar una foto!";
+        } else {
+            $validacion++;
+        }
+
+        if ($_FILES['foto3']['tmp_name'] == null) {
+            $error_foto3 = "Se requiere cargar una foto!";
+        } else {
+            $validacion++;
+        }
+
+        if ($_FILES['foto4']['tmp_name'] == null) {
+            $error_foto4 = "Se requiere cargar una foto!";
+        } else {
+            $validacion++;
+        }
+
+        if ($_FILES['foto5']['tmp_name'] == null) {
+            $error_foto5 = "Se requiere cargar una foto!";
+        } else {
+            $validacion++;
+        }
+
+        if ($_FILES['foto6']['tmp_name'] == null) {
+            $error_foto6 = "Se requiere cargar una foto!";
+        } else {
+            $validacion++;
+        }
+        
                 
 ?>
