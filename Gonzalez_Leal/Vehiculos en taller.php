@@ -4,6 +4,11 @@
         header("Location: ../login.php");
     }else{
         
+        include("conexion_leal.php");
+
+        $con = mysqli_connect($hostname, $user, $pass, $db) or die("Error al conectar con el servidor");
+        $query = mysqli_query($con, "SELECT * FROM vehiculos WHERE STATUS = 'Activo'");
+        mysqli_close($con);
 ?>
 
 <!DOCTYPE html>
@@ -90,8 +95,22 @@
                     </div>
                 </div>
                 <!-- /. ROW  -->
-                
-                
+                <p>Seleccione un veh&iacuteculo para ver informaci&oacuten m&aacutes detallada:</p>
+
+                <?php
+                    while ($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
+                        echo "<div class='polaroid'>";
+                        //echo "<img src='".$row['FOTO1']."' alt='".$row['FOLIO']."-".$row['MARCA']."-".$row['TIPO']."-".$row['MODELO']."' class='image'>";
+                        echo "<a href='info vehiculo.php?folio=".$row['FOLIO']."' style='float:left'><img src='".$row['FOTO1']."' alt='".$row['FOLIO']."-".$row['MARCA']."-".$row['TIPO']."-".$row['MODELO']."' style='height:300px; width:400px'></a>";
+                        echo "<div class='titulo'><strong>";
+                        echo "Folio: ".$row['FOLIO']."<br>";
+                        echo "Marca: ".$row['MARCA']."<br>";
+                        echo "Tipo: ".$row['TIPO']."<br>";
+                        echo "Modelo: ".$row['MODELO']."<br>";
+                        echo "</strong></div>";
+                        echo "</div>";
+                    }
+                ?>
 
             </div>
             <!-- /. PAGE INNER  -->

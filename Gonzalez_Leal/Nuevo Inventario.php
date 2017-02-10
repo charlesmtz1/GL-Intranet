@@ -75,7 +75,7 @@
 
 //---------------------------------------Crea expediente y almacena fotografias---------------------------------------------------
                 $expediente = $nuevo_folio."-".$marca."-".$tipo."-".$modelo;
-                mkdir("C:/Bitnami/apache2/htdocs/GL-Intranet/Gonzalez_Leal/expedientes/".$expediente."", 0777);
+                mkdir("C:/Bitnami/apache2/htdocs/GL Intranet/Gonzalez_Leal/expedientes/".$expediente."", 0777);
                 $foto_expediente = "expedientes/".$expediente."/";
                 opendir($foto_expediente);
 
@@ -86,10 +86,15 @@
                 copy($_FILES['foto5']['tmp_name'], $foto_expediente.$_FILES['foto5']['name']);
                 copy($_FILES['foto6']['tmp_name'], $foto_expediente.$_FILES['foto6']['name']);
 
-                $guarda_fotos = "UPDATE vehiculos SET FOTO1 = '$foto_expediente.$_FILES[foto1][name]', FOTO2 = '$foto_expediente.$_FILES[foto2][name]',
-                                    FOTO3 = '$foto_expediente.$_FILES[foto3][name]', FOTO4 = '$foto_expediente.$_FILES[foto4][name]', 
-                                    FOTO5 = '$foto_expediente.$_FILES[foto5][name]', FOTO6 = '$foto_expediente.$_FILES[foto6][name]'
-                                    WHERE FOLIO = '$nuevo_folio'";
+                $ruta_foto1 = $foto_expediente.$_FILES['foto1']['name'];
+                $ruta_foto2 = $foto_expediente.$_FILES['foto2']['name'];
+                $ruta_foto3 = $foto_expediente.$_FILES['foto3']['name'];
+                $ruta_foto4 = $foto_expediente.$_FILES['foto4']['name'];
+                $ruta_foto5 = $foto_expediente.$_FILES['foto5']['name'];
+                $ruta_foto6 = $foto_expediente.$_FILES['foto6']['name'];
+
+                $guarda_fotos = "UPDATE vehiculos SET FOTO1 = '$ruta_foto1', FOTO2 = '$ruta_foto2', FOTO3 = '$ruta_foto3', 
+                                    FOTO4 = '$ruta_foto4', FOTO5 = '$ruta_foto5', FOTO6 = '$ruta_foto6' WHERE FOLIO = '$nuevo_folio'";
 
                 if ($con->query($guarda_fotos) === TRUE) {
                     # code...
