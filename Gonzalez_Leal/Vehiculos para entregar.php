@@ -7,7 +7,7 @@
         include("conexion_leal.php");
 
         $con = mysqli_connect($hostname, $user, $pass, $db) or die("Error al conectar con el servidor");
-        $query = mysqli_query($con, "SELECT * FROM vehiculos WHERE STATUS = 'Activo'");
+        $query = mysqli_query($con, "SELECT * FROM vehiculos WHERE STATUS = 'Terminado'");
         mysqli_close($con);
 ?>
 
@@ -53,8 +53,8 @@
                 <ul class="nav" id="main-menu">
 				    <li class="text-center"><img src="../assets/img/logo.png" class="user-image img-responsive"/></li>
                     <li><a href="Menu.php"><i class="fa fa-user fa-3x"></i>Resumen</a>
-				    <li><a class="active-menu" href="Vehiculos en taller.php"><i class="fa fa-dashboard fa-3x"></i>Veh&iacuteculos en taller</a></li>
-                    <li><a href="Vehiculos para entregar.php"><i class="fa fa-dashboard fa-3x"></i>Veh&iacuteculos para entregar</a></li>
+				    <li><a href="Vehiculos en taller.php"><i class="fa fa-dashboard fa-3x"></i>Veh&iacuteculos en taller</a></li>
+                    <li><a class="active-menu" href="Vehiculos para entregar.php"><i class="fa fa-dashboard fa-3x"></i>Veh&iacuteculos para entregar</a></li>
                     <li><a href="#"><i class="fa fa-edit fa-3x"></i>Inventarios<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li><a href="Nuevo Inventario.php">Nuevo inventario</a></li>
@@ -96,7 +96,7 @@
                     </div>
                 </div>
                 <!-- /. ROW  -->
-                <p>Seleccione un veh&iacuteculo para ver informaci&oacuten m&aacutes detallada:</p>
+                <p>Seleccione un veh&iacuteculo para marcarlo como entregado:</p>
 
                 <?php
                     while ($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {

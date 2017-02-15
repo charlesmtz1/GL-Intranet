@@ -7,6 +7,7 @@
         $aux = 0;
         $presupuestos_pendientes = null;
         $vehiculos_activos = null;
+        $vehiculos_terminados = null;
 
         include("conexion_leal.php");
         $con = mysqli_connect($hostname,$user,$pass,$db);
@@ -15,6 +16,10 @@
         
         $vehiculos_activos = $row["COUNT(STATUS)"];
 
+        $query = mysqli_query($con,"SELECT COUNT(STATUS) FROM vehiculos WHERE STATUS = 'Terminado'");
+        $row = mysqli_fetch_array($query,MYSQLI_ASSOC);
+
+        $vehiculos_terminados = $row["COUNT(STATUS)"];
 
         $query = mysqli_query($con,"SELECT COUNT(STATUS) FROM presupuestos WHERE STATUS = 'Presupuesto sin realizar'");
         $row = mysqli_fetch_array($query,MYSQLI_ASSOC);
@@ -68,6 +73,7 @@
 				    <li class="text-center"><img src="../assets/img/logo.png" class="user-image img-responsive"/></li>
                     <li><a class="active-menu" href="Menu.php"><i class="fa fa-user fa-3x"></i>Resumen</a>
 				    <li><a href="Vehiculos en taller.php"><i class="fa fa-dashboard fa-3x"></i>Veh&iacuteculos en taller</a></li>
+                    <li><a href="Vehiculos para entregar.php"><i class="fa fa-dashboard fa-3x"></i>Veh&iacuteculos para entregar</a></li>
                     <li><a href="#"><i class="fa fa-edit fa-3x"></i>Inventarios<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li><a href="Nuevo Inventario.php">Nuevo inventario</a></li>
@@ -132,7 +138,7 @@
 			            <div class="panel panel-back noti-box">
                             <span class="icon-box bg-color-green set-icon"><i class="fa fa-flag-checkered"></i></span>
                             <div class="text-box">
-                                <p class="main-text" style="text-align:center;">0</p><br>
+                                <p class="main-text" style="text-align:center;"><?php echo $vehiculos_terminados; ?></p><br>
                                 <p class="text-muted">Veh&iacuteculos para entregar</p>
                             </div>
                         </div>

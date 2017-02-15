@@ -43,19 +43,27 @@
         $con = mysqli_connect($hostname, $user, $pass, $db) or die("Error al conectar con el servidor");
         $query = mysqli_query($con, "SELECT * FROM vehiculos WHERE FOLIO = '$buscar'");
         $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
-        mysqli_close($con);
 
         if($row > 0){
-            $folio = $row['FOLIO'];
-            $marca = $row['MARCA'];
-            $tipo = $row['TIPO'];
-            $modelo = $row['MODELO'];
-            $placas = $row['PLACAS'];
-            $cia = $row['COMPANIA'];
-            $siniestro = $row['SINIESTRO'];
-            $busqueda_exitosa = true;
+            $query = mysqli_query($con, "SELECT * FROM presupuestos WHERE FOLIO = '$buscar'");
+            $row2 = mysqli_fetch_array($query, MYSQLI_ASSOC);
+            mysqli_close($con);
+
+            if ($row2['STATUS'] == 'Realizado') {
+                $error_busqueda = "El presupuesto de este folio ya esta realizado, puedes revisarlo en Vehiculos en Taller.";
+            } else {
+                $folio = $row['FOLIO'];
+                $marca = $row['MARCA'];
+                $tipo = $row['TIPO'];
+                $modelo = $row['MODELO'];
+                $placas = $row['PLACAS'];
+                $cia = $row['COMPANIA'];
+                $siniestro = $row['SINIESTRO'];
+                $busqueda_exitosa = true;
+            } 
         }
         else {
+            mysqli_close($con);
             $error_busqueda = "No se encuentra ningun folio con el número ingresado!";
         }
     }
@@ -148,6 +156,7 @@
 				    <li class="text-center"><img src="../assets/img/logo.png" class="user-image img-responsive"/></li>
                     <li><a href="Menu.php"><i class="fa fa-user fa-3x"></i>Resumen</a>
 				    <li><a href="Vehiculos en taller.php"><i class="fa fa-dashboard fa-3x"></i>Veh&iacuteculos en taller</a></li>
+                    <li><a href="Vehiculos para entregar.php"><i class="fa fa-dashboard fa-3x"></i>Veh&iacuteculos para entregar</a></li>
                     <li><a href="#"><i class="fa fa-edit fa-3x"></i>Inventarios<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li><a href="Nuevo Inventario.php">Nuevo inventario</a></li>
@@ -298,6 +307,7 @@
                         </div>
                         <div class="col-sm-2">
                             <select class="form-control" name="cr1">
+                                <option value=""></option>
                                 <option value="Cambio">Cambio</option>
                                 <option value="Reparacion">Reparaci&oacuten</option>
                             </select>
@@ -307,6 +317,7 @@
                         </div>
                         <div class="col-sm-2">
                             <select class="form-control" name="pm1">
+                                <option value=""></option>
                                 <option value="Pintura">Pintura</option>
                                 <option value="Mecanica">Mec&aacutenica</option>
                             </select>
@@ -326,6 +337,7 @@
                         </div>
                         <div class="col-sm-2">
                             <select class="form-control" name="cr2">
+                                <option value=""></option>
                                 <option value="Cambio">Cambio</option>
                                 <option value="Reparacion">Reparaci&oacuten</option>
                             </select>
@@ -335,6 +347,7 @@
                         </div>
                         <div class="col-sm-2">
                             <select class="form-control" name="pm2">
+                                <option value=""></option>
                                 <option value="Pintura">Pintura</option>
                                 <option value="Mecanica">Mec&aacutenica</option>
                             </select>
@@ -354,6 +367,7 @@
                         </div>
                         <div class="col-sm-2">
                             <select class="form-control" name="cr3">
+                                <option value=""></option>
                                 <option value="Cambio">Cambio</option>
                                 <option value="Reparacion">Reparaci&oacuten</option>
                             </select>
@@ -363,6 +377,7 @@
                         </div>
                         <div class="col-sm-2">
                             <select class="form-control" name="pm3">
+                                <option value=""></option>
                                 <option value="Pintura">Pintura</option>
                                 <option value="Mecanica">Mec&aacutenica</option>
                             </select>
@@ -382,6 +397,7 @@
                         </div>
                         <div class="col-sm-2">
                             <select class="form-control" name="cr4">
+                                <option value=""></option>
                                 <option value="Cambio">Cambio</option>
                                 <option value="Reparacion">Reparaci&oacuten</option>
                             </select>
@@ -391,6 +407,7 @@
                         </div>
                         <div class="col-sm-2">
                             <select class="form-control" name="pm4">
+                                <option value=""></option>
                                 <option value="Pintura">Pintura</option>
                                 <option value="Mecanica">Mec&aacutenica</option>
                             </select>
@@ -410,6 +427,7 @@
                         </div>
                         <div class="col-sm-2">
                             <select class="form-control" name="cr5">
+                                <option value=""></option>
                                 <option value="Cambio">Cambio</option>
                                 <option value="Reparacion">Reparaci&oacuten</option>
                             </select>
@@ -419,6 +437,7 @@
                         </div>
                         <div class="col-sm-2">
                             <select class="form-control" name="pm5">
+                                <option value=""></option>
                                 <option value="Pintura">Pintura</option>
                                 <option value="Mecanica">Mec&aacutenica</option>
                             </select>
@@ -438,6 +457,7 @@
                         </div>
                         <div class="col-sm-2">
                             <select class="form-control" name="cr6">
+                                <option value=""></option>
                                 <option value="Cambio">Cambio</option>
                                 <option value="Reparacion">Reparaci&oacuten</option>
                             </select>
@@ -447,6 +467,7 @@
                         </div>
                         <div class="col-sm-2">
                             <select class="form-control" name="pm6">
+                                <option value=""></option>
                                 <option value="Pintura">Pintura</option>
                                 <option value="Mecanica">Mec&aacutenica</option>
                             </select>
@@ -466,6 +487,7 @@
                         </div>
                         <div class="col-sm-2">
                             <select class="form-control" name="cr7">
+                                <option value=""></option>
                                 <option value="Cambio">Cambio</option>
                                 <option value="Reparacion">Reparaci&oacuten</option>
                             </select>
@@ -475,6 +497,7 @@
                         </div>
                         <div class="col-sm-2">
                             <select class="form-control" name="pm7">
+                                <option value=""></option>
                                 <option value="Pintura">Pintura</option>
                                 <option value="Mecanica">Mec&aacutenica</option>
                             </select>
@@ -494,6 +517,7 @@
                         </div>
                         <div class="col-sm-2">
                             <select class="form-control" name="cr8">
+                                <option value=""></option>
                                 <option value="Cambio">Cambio</option>
                                 <option value="Reparacion">Reparaci&oacuten</option>
                             </select>
@@ -503,6 +527,7 @@
                         </div>
                         <div class="col-sm-2">
                             <select class="form-control" name="pm8">
+                                <option value=""></option>
                                 <option value="Pintura">Pintura</option>
                                 <option value="Mecanica">Mec&aacutenica</option>
                             </select>
@@ -522,6 +547,7 @@
                         </div>
                         <div class="col-sm-2">
                             <select class="form-control" name="cr9">
+                                <option value=""></option>
                                 <option value="Cambio">Cambio</option>
                                 <option value="Reparacion">Reparaci&oacuten</option>
                             </select>
@@ -531,6 +557,7 @@
                         </div>
                         <div class="col-sm-2">
                             <select class="form-control" name="pm9">
+                                <option value=""></option>
                                 <option value="Pintura">Pintura</option>
                                 <option value="Mecanica">Mec&aacutenica</option>
                             </select>
@@ -550,6 +577,7 @@
                         </div>
                         <div class="col-sm-2">
                             <select class="form-control" name="cr10">
+                                <option value=""></option>
                                 <option value="Cambio">Cambio</option>
                                 <option value="Reparacion">Reparaci&oacuten</option>
                             </select>
@@ -559,6 +587,7 @@
                         </div>
                         <div class="col-sm-2">
                             <select class="form-control" name="pm10">
+                                <option value=""></option>
                                 <option value="Pintura">Pintura</option>
                                 <option value="Mecanica">Mec&aacutenica</option>
                             </select>
@@ -578,6 +607,7 @@
                         </div>
                         <div class="col-sm-2">
                             <select class="form-control" name="cr11">
+                                <option value=""></option>
                                 <option value="Cambio">Cambio</option>
                                 <option value="Reparacion">Reparaci&oacuten</option>
                             </select>
@@ -587,6 +617,7 @@
                         </div>
                         <div class="col-sm-2">
                             <select class="form-control" name="pm11">
+                                <option value=""></option>
                                 <option value="Pintura">Pintura</option>
                                 <option value="Mecanica">Mec&aacutenica</option>
                             </select>
@@ -606,6 +637,7 @@
                         </div>
                         <div class="col-sm-2">
                             <select class="form-control" name="cr12">
+                                <option value=""></option>
                                 <option value="Cambio">Cambio</option>
                                 <option value="Reparacion">Reparaci&oacuten</option>
                             </select>
@@ -615,6 +647,7 @@
                         </div>
                         <div class="col-sm-2">
                             <select class="form-control" name="pm12">
+                                <option value=""></option>
                                 <option value="Pintura">Pintura</option>
                                 <option value="Mecanica">Mec&aacutenica</option>
                             </select>
@@ -634,6 +667,7 @@
                         </div>
                         <div class="col-sm-2">
                             <select class="form-control" name="cr13">
+                                <option value=""></option>
                                 <option value="Cambio">Cambio</option>
                                 <option value="Reparacion">Reparaci&oacuten</option>
                             </select>
@@ -643,6 +677,7 @@
                         </div>
                         <div class="col-sm-2">
                             <select class="form-control" name="pm13">
+                                <option value=""></option>
                                 <option value="Pintura">Pintura</option>
                                 <option value="Mecanica">Mec&aacutenica</option>
                             </select>
@@ -662,6 +697,7 @@
                         </div>
                         <div class="col-sm-2">
                             <select class="form-control" name="cr14">
+                                <option value=""></option>
                                 <option value="Cambio">Cambio</option>
                                 <option value="Reparacion">Reparaci&oacuten</option>
                             </select>
@@ -671,6 +707,7 @@
                         </div>
                         <div class="col-sm-2">
                             <select class="form-control" name="pm14">
+                                <option value=""></option>
                                 <option value="Pintura">Pintura</option>
                                 <option value="Mecanica">Mec&aacutenica</option>
                             </select>
@@ -690,6 +727,7 @@
                         </div>
                         <div class="col-sm-2">
                             <select class="form-control" name="cr15">
+                                <option value=""></option>
                                 <option value="Cambio">Cambio</option>
                                 <option value="Reparacion">Reparaci&oacuten</option>
                             </select>
@@ -699,6 +737,7 @@
                         </div>
                         <div class="col-sm-2">
                             <select class="form-control" name="pm15">
+                                <option value=""></option>
                                 <option value="Pintura">Pintura</option>
                                 <option value="Mecanica">Mec&aacutenica</option>
                             </select>

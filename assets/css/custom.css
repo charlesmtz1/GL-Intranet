@@ -59,6 +59,10 @@ p {
     line-height:25px;
     padding-top:20px;
 }
+
+td {
+    text-align: center;
+}
 /*==============================================
    DASHBOARD STYLES    
     =============================================*/

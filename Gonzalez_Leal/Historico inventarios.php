@@ -1,10 +1,9 @@
 <?php
-    include("conexionleal.php");
+    include("conexion_leal.php");
 
-    $con = mysql_connect($host, $user, $password) or die("Error al conectar con el servidor");
-    mysql_select_db($db, $con) or die("Error al conectar con la base de datos");
+    $con = mysqli_connect($hostname, $user, $pass, $db) or die("Error al conectar con el servidor");
 
-    $consulta = mysql_query("SELECT * from clientes", $con) or die("No se pudo realizar la consulta");
+    $query = mysqli_query($con, "SELECT * FROM clientes") or die("No se pudo realizar la consulta");
 ?>
 
 <!DOCTYPE html>
@@ -40,17 +39,17 @@
                 </thead>
                 <tbody>
                     <?php
-                        while ($reg = mysql_fetch_array($consulta)) { ?>
+                        while ($row = mysqli_fetch_array($query)) { ?>
                             <tr>
-                                <td><?php echo $reg['FOLIO'] ?></td>
-                                <td><?php echo $reg['NOMBRE'] ?></td>
-                                <td><?php echo $reg['DOMICILIO'] ?></td>
-                                <td><?php echo $reg['COLONIA'] ?></td>
-                                <td><?php echo $reg['MUNICIPIO'] ?></td>
-                                <td><?php echo $reg['RFC'] ?></td>
-                                <td><?php echo $reg['TELEFONO'] ?></td>
-                                <td><?php echo $reg['CELULAR'] ?></td>
-                                <td><?php echo $reg['EMAIL'] ?></td>
+                                <td><?php echo $row['FOLIO'] ?></td>
+                                <td><?php echo $row['NOMBRE'] ?></td>
+                                <td><?php echo $row['DOMICILIO'] ?></td>
+                                <td><?php echo $row['COLONIA'] ?></td>
+                                <td><?php echo $row['MUNICIPIO'] ?></td>
+                                <td><?php echo $row['RFC'] ?></td>
+                                <td><?php echo $row['TELEFONO'] ?></td>
+                                <td><?php echo $row['CELULAR'] ?></td>
+                                <td><?php echo $row['EMAIL'] ?></td>
                             </tr>
                         <?php } ?>
                  </tbody>
