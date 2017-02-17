@@ -4,7 +4,7 @@
         header("Location: ../login.php");
     }else{
         
-    $inventario_correcto = null;
+    $inventario_correcto = false;
     $inventario_erroneo = null;
 
     //Variables de datos del cliente para insercion de datos a SQL.
@@ -143,7 +143,7 @@
                 die("Error al guardar los datos del vehiculo: ".mysqli_error($con));  
 
 
-            $inventario_correcto = "Inventario guardado correctamente! Número de folio generado: " . $nuevo_folio;
+            $inventario_correcto = true;
 
         }else {
             $inventario_erroneo = "El inventario contiene errores, favor de verificarlo."; 
@@ -238,10 +238,15 @@
                         <hr/>
                     </div>
                 </div>
+
+                <?php
+                    if ($inventario_correcto === TRUE) {
+                        echo "<span class='correcto' style='font-size:20px'>Inventario guardado correctamente! Número de folio generado: ".$nuevo_folio."</span>";
+                    }else{ ?>
                 <div class="row">
                     <div class="col-sm-10">
                         <?php
-                            echo "<span class='correcto' style='font-size:20px'>" . $inventario_correcto ."</span>";
+                            
                             echo "<span class='error' style='font-size:20px'>" . $inventario_erroneo ."</span>";
                         ?>
                     </div>
@@ -739,7 +744,7 @@
             <br>
         </form>      
         </div>
-    
+                    <?php } ?>
                 </div>
             <!-- /. PAGE INNER  -->
         </div>

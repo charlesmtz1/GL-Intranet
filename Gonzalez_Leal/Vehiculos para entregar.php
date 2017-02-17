@@ -7,6 +7,15 @@
         include("conexion_leal.php");
 
         $con = mysqli_connect($hostname, $user, $pass, $db) or die("Error al conectar con el servidor");
+
+         if (isset($_POST['entregar'])) {
+            $entregar = $_POST['folio'];
+
+            mysqli_query($con, "UPDATE vehiculos SET STATUS = 'Entregado' WHERE FOLIO = '$entregar'");
+            header("Location: Menu.php");
+        }
+
+        
         $query = mysqli_query($con, "SELECT * FROM vehiculos WHERE STATUS = 'Terminado'");
         mysqli_close($con);
 ?>
@@ -89,7 +98,7 @@
 			            <div class="panel panel-back noti-box">
                             <span class="icon-box bg-color-green set-icon"><i class="fa fa-dashboard"></i></span>
                             <div class="text-box">
-                                <p class="main-text" style="text-align:center;">Vehiculos en taller</p>
+                                <p class="main-text" style="text-align:center;">Vehiculos para entregar</p>
                             </div>
                         </div>
                         <hr/>
@@ -99,20 +108,26 @@
                 <p>Seleccione un veh&iacuteculo para marcarlo como entregado:</p>
 
                 <?php
-                    while ($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
-                        echo "<div class='polaroid'>";
-                        //echo "<img src='".$row['FOTO1']."' alt='".$row['FOLIO']."-".$row['MARCA']."-".$row['TIPO']."-".$row['MODELO']."' class='image'>";
-                        echo "<a href='info vehiculo.php?folio=".$row['FOLIO']."' style='float:left'><img src='".$row['FOTO1']."' alt='".$row['FOLIO']."-".$row['MARCA']."-".$row['TIPO']."-".$row['MODELO']."' style='height:300px; width:400px'></a>";
-                        echo "<div class='titulo'><strong>";
-                        echo "Folio: ".$row['FOLIO']."<br>";
-                        echo "Marca: ".$row['MARCA']."<br>";
-                        echo "Tipo: ".$row['TIPO']."<br>";
-                        echo "Modelo: ".$row['MODELO']."<br>";
-                        echo "</strong></div>";
-                        echo "</div>";
-                    }
+                    while ($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) { ?>
+                        <div class="polaroid">
+                            <img src="<?php echo $row['FOTO1']; ?>" alt="<?php echo $row['FOLIO']."-".$row['MARCA']."-".$row['TIPO']."-".$row['MODELO']; ?>" style="height:300px; width:400px">
+                            <div class="titulo"><strong>
+                                Folio: <?php echo $row['FOLIO'] ?><br>
+                                Marca: <?php echo $row['MARCA'] ?><br>
+                                Tipo: <?php echo $row['TIPO'] ?><br>
+                                Modelo: <?php echo $row['MODELO'] ?><br>
+                                </strong>
+                            </div>
+                            <div class="titulo"><strong>
+                                <form action="<?php $_SERVER['PHP_SELF'] ?>" method="POST">
+                                    <input type="hidden" name="folio" value="<?php echo $row['FOLIO'] ?>">
+                                    <button type="submit" class="btn btn-success" name="entregar">Entregar</button>
+                                </form>
+                                </strong>
+                            </div>
+                        </div>
+                <?php   }
                 ?>
-
             </div>
             <!-- /. PAGE INNER  -->
         </div>

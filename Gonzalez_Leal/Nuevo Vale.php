@@ -30,14 +30,20 @@
         mysqli_close($con);
 
         if($row > 0){
-            $folio = $row['FOLIO'];
-            $marca = $row['MARCA'];
-            $tipo = $row['TIPO'];
-            $modelo = $row['MODELO'];
-            $placas = $row['PLACAS'];
-            $cia = $row['COMPANIA'];
-            $siniestro = $row['SINIESTRO'];
-            $busqueda_exitosa = true;
+            if ($row['STATUS'] == 'Activo') {
+                $folio = $row['FOLIO'];
+                $marca = $row['MARCA'];
+                $tipo = $row['TIPO'];
+                $modelo = $row['MODELO'];
+                $placas = $row['PLACAS'];
+                $cia = $row['COMPANIA'];
+                $siniestro = $row['SINIESTRO'];
+                $busqueda_exitosa = true;
+            } else {
+                $error_busqueda = "No se encuentra ningun folio con el número ingresado!";
+            }
+            
+            
         }
         else {
             $error_busqueda = "No se encuentra ningun folio con el número ingresado!";

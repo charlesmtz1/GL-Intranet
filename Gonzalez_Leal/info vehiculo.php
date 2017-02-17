@@ -12,6 +12,7 @@
             $terminar = $_POST['folio'];
 
             mysqli_query($con, "UPDATE vehiculos SET STATUS = 'Terminado' WHERE FOLIO = '$terminar'");
+            mysqli_query($con, "UPDATE presupuestos SET STATUS = 'Realizado' WHERE FOLIO = '$terminar'");
             header("Location: Menu.php");
         }
 

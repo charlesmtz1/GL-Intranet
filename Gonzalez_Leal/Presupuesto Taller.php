@@ -7,6 +7,7 @@
     $buscar = null;
     $folio = $marca = $tipo = $modelo = $placas = $cia = $siniestro = null;
     $busqueda_exitosa = false;
+    $presupuesto_exitoso = false;
     $error_busqueda = null;  
 
     $concepto1 = $cr1 = $costocr1 = $pm1 = $costopm1 = $refaccion1 = null;
@@ -50,7 +51,7 @@
             mysqli_close($con);
 
             if ($row2['STATUS'] == 'Realizado') {
-                $error_busqueda = "El presupuesto de este folio ya esta realizado, puedes revisarlo en Vehiculos en Taller.";
+                $error_busqueda = "El presupuesto de este folio ya esta realizado.";
             } else {
                 $folio = $row['FOLIO'];
                 $marca = $row['MARCA'];
@@ -107,6 +108,8 @@
                         WHERE FOLIO = '$folio'") or die("Error al guardar el inventario: ".mysqli_error($con));
 
         mysqli_close($con);
+
+        $presupuesto_exitoso = true;
     }
     
 
@@ -197,6 +200,9 @@
                         <hr/>
                     </div>
                 </div>
+                <?php
+                    if
+                ?>
                 <form class="form-horizontal" action="<?php $_SERVER["PHP_SELF"] ?>" method="POST">
                     <fieldset>
                         <p>Para realizar el presupuesto de un veh&iacuteculo, escriba el n&uacutemero de folio generado
