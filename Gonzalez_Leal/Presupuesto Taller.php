@@ -69,6 +69,38 @@
         }
     }
 
+    if(isset($_GET["folio"])){
+        $buscar = $_GET['folio'];
+        include("conexion_leal.php");
+
+        $con = mysqli_connect($hostname, $user, $pass, $db) or die("Error al conectar con el servidor");
+        $query = mysqli_query($con, "SELECT * FROM vehiculos WHERE FOLIO = '$buscar'");
+        $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
+
+        if($row > 0){
+            $query = mysqli_query($con, "SELECT * FROM presupuestos WHERE FOLIO = '$buscar'");
+            $row2 = mysqli_fetch_array($query, MYSQLI_ASSOC);
+            mysqli_close($con);
+
+            if ($row2['STATUS'] == 'Realizado') {
+                $error_busqueda = "El presupuesto de este folio ya esta realizado.";
+            } else {
+                $folio = $row['FOLIO'];
+                $marca = $row['MARCA'];
+                $tipo = $row['TIPO'];
+                $modelo = $row['MODELO'];
+                $placas = $row['PLACAS'];
+                $cia = $row['COMPANIA'];
+                $siniestro = $row['SINIESTRO'];
+                $busqueda_exitosa = true;
+            } 
+        }
+        else {
+            mysqli_close($con);
+            $error_busqueda = "No se encuentra ningun folio con el número ingresado!";
+        }
+    }
+
     if (isset($_POST["guardar"])) {
         $folio = $_POST['folio'];
         include("../assets/includes/valida_presupuesto.php");
@@ -109,7 +141,7 @@
 
         mysqli_close($con);
 
-        $presupuesto_exitoso = true;
+        $presupuesto_exitoso = TRUE;
     }
     
 
@@ -163,23 +195,18 @@
                     <li><a href="#"><i class="fa fa-edit fa-3x"></i>Inventarios<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li><a href="Nuevo Inventario.php">Nuevo inventario</a></li>
-                            <li><a href="Buscar Inventario.html">Buscar inventario</a></li>
-                            <li><a href="Historico inventarios.php">Hist&oacuterico de inventarios</a></li>
+                            <li><a href="Historico Inventarios.php">Historico de inventarios</a></li>
                         </ul>
                     </li>
                     <li><a class="active-menu" href="#"><i class="fa fa-bar-chart-o fa-3x"></i>Presupuestos<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li><a href="Presupuesto Rapido.html">Nuevo presupuesto r&aacutepido</a></li>
                             <li><a href="Presupuesto Taller.php">Nuevo presupuesto para taller</a></li>
-                            <li><a href="Buscar Presupuesto.html">Buscar presupuesto</a></li>
-                            <li><a href="Historial Presupuestos.html">Historial de presupuestos</a></li>
+                            <li><a href="Presupuestos Pendientes.php">Presupuestos pendientes</a></li>
                         </ul>
                     </li>
                     <li><a href="#"><i class="fa fa-square-o fa-3x"></i>Vales<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li><a href="Nuevo Vale.php">Nuevo vale</a></li>
-                            <li><a href="Presupuesto Taller.html">Buscar vales</a></li>
-                            <li><a href="Buscar Presupuesto.html">Hist&oacuterico de vales</a></li>
                         </ul>
                     </li>
                     <li><a  href="table.html"><i class="fa fa-money fa-3x"></i>Gastos</a></li>
@@ -201,8 +228,10 @@
                     </div>
                 </div>
                 <?php
-                    if
-                ?>
+                    if ($presupuesto_exitoso === TRUE) {
+                        echo "<span class='correcto' style='font-size:20px'>El presupuesto del folio ".$folio." se ha guardado correctamente!</span>";
+                    }else{ ?>
+
                 <form class="form-horizontal" action="<?php $_SERVER["PHP_SELF"] ?>" method="POST">
                     <fieldset>
                         <p>Para realizar el presupuesto de un veh&iacuteculo, escriba el n&uacutemero de folio generado
@@ -831,5 +860,5 @@
         <script src="../assets/js/custom.js"></script>
     </body>
 </html>
-
+<?php } ?>
 <?php } ?>
