@@ -4,7 +4,7 @@
         header("Location: ../login.php");
     }else{
         
-    $inventario_correcto = null;
+    $inventario_correcto = false;
     $inventario_erroneo = null;
 
     //Variables de datos del cliente para insercion de datos a SQL.
@@ -47,42 +47,103 @@
         return $dato;
     }
 
+
+    include("../assets/includes/conexion_laureles.php");
+
+    $con = new mysqli($hostname, $user, $pass, $db) or die("Error al conectar con el servidor");
+
+    $consulta_folio = "SELECT * FROM vehiculos WHERE FOLIO = (SELECT MAX(FOLIO) FROM vehiculos)";
+    $ultimo_folio = $con->query($consulta_folio);
+
+    if ($ultimo_folio->num_rows > 0) {
+        while ($row = $ultimo_folio->fetch_assoc()) {
+            $folio = $row["FOLIO"];
+        }
+    }
+    
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
        include("../assets/includes/valida_formulario.php");
 
-        if($validacion === 44){
-
-            include("conexion_laureles.php");
-
-            $con = mysqli_connect($hostname, $user, $pass, $db) or die("Error al conectar con el servidor");
+        if($validacion === 50){
+         
+            $crea_vehiculo = "INSERT INTO vehiculos (MARCA, TIPO, MODELO, PLACAS, COMPANIA, SINIESTRO, COLOR, PUERTAS, FECHA, STATUS)
+                    VALUES ('$marca','$tipo','$modelo','$placas', '$cia','$siniestro','$color','$puertas','$fecha', 'Activo')";
             
-            mysqli_query($con, "INSERT INTO clientes (NOMBRE, DOMICILIO, COLONIA, MUNICIPIO, RFC, TELEFONO, CELULAR, EMAIL) 
-                    VALUES ('$nombre','$domicilio','$colonia','$municipio','$rfc','$telefono','$celular','$email')")
-                            or die("Error al guardar los datos del cliente: ".mysqli_error($con));
+            if($con->query($crea_vehiculo) === TRUE){
+                $nuevo_folio = $con->insert_id;
 
-            mysqli_query($con, "INSERT INTO vehiculos (MARCA, TIPO, MODELO, PLACAS, COMPANIA, SINIESTRO, COLOR, PUERTAS, FECHA, STATUS)
-                    VALUES ('$marca','$tipo','$modelo','$placas', '$cia','$siniestro','$color','$puertas','$fecha', 'Activo')")
-                            or die("Error al guardar los datos del vehiculo: ".mysqli_error($con));
+//---------------------------------------Crea expediente y almacena fotografias---------------------------------------------------
+                $expediente = $nuevo_folio."-".$marca."-".$tipo."-".$modelo;
+                mkdir("C:/Bitnami/apache2/htdocs/GL-Intranet/Gonzalez_Leal/expedientes/".$expediente."", 0777);
+                $foto_expediente = "expedientes/".$expediente."/";
+                opendir($foto_expediente);
 
-            mysqli_query($con, "INSERT INTO inventarios (KILOMETROS, GASOLINA, LLANTAREF, EMBLEMAFRENTE, GATO, EMBLEMACOSTADO, 
+                copy($_FILES['foto1']['tmp_name'], $foto_expediente.$_FILES['foto1']['name']);
+                copy($_FILES['foto2']['tmp_name'], $foto_expediente.$_FILES['foto2']['name']);
+                copy($_FILES['foto3']['tmp_name'], $foto_expediente.$_FILES['foto3']['name']);
+                copy($_FILES['foto4']['tmp_name'], $foto_expediente.$_FILES['foto4']['name']);
+                copy($_FILES['foto5']['tmp_name'], $foto_expediente.$_FILES['foto5']['name']);
+                copy($_FILES['foto6']['tmp_name'], $foto_expediente.$_FILES['foto6']['name']);
+
+                $ruta_foto1 = $foto_expediente.$_FILES['foto1']['name'];
+                $ruta_foto2 = $foto_expediente.$_FILES['foto2']['name'];
+                $ruta_foto3 = $foto_expediente.$_FILES['foto3']['name'];
+                $ruta_foto4 = $foto_expediente.$_FILES['foto4']['name'];
+                $ruta_foto5 = $foto_expediente.$_FILES['foto5']['name'];
+                $ruta_foto6 = $foto_expediente.$_FILES['foto6']['name'];
+
+                $guarda_fotos = "UPDATE vehiculos SET FOTO1 = '$ruta_foto1', FOTO2 = '$ruta_foto2', FOTO3 = '$ruta_foto3', 
+                                    FOTO4 = '$ruta_foto4', FOTO5 = '$ruta_foto5', FOTO6 = '$ruta_foto6' WHERE FOLIO = '$nuevo_folio'";
+
+                if ($con->query($guarda_fotos) === TRUE) {
+                    # code...
+                } else {
+                   die("Error al guardar las fotos del vehiculo: ".mysqli_error($con)); 
+                }
+
+//-----------------------------------------Almacena datos del cliente--------------------------------------------------------------------------
+                $crea_cliente = "INSERT INTO clientes (FOLIO, NOMBRE, DOMICILIO, COLONIA, MUNICIPIO, RFC, TELEFONO, CELULAR, EMAIL) 
+                    VALUES ('$nuevo_folio','$nombre','$domicilio','$colonia','$municipio','$rfc','$telefono','$celular','$email')";
+
+                if ($con->query($crea_cliente) === TRUE) {
+                    # code...
+                } else {
+                   die("Error al guardar los datos del cliente: ".mysqli_error($con)); 
+                }
+                
+//----------------------------------------Crea inventario en base de datos--------------------------------------------------------------------
+                $crea_inventario = "INSERT INTO inventarios (FOLIO, KILOMETROS, GASOLINA, LLANTAREF, EMBLEMAFRENTE, GATO, EMBLEMACOSTADO, 
                                 EXTINGUIDOR, MOLDURADER, ESTEREO, MOLDURAIZQ, PARABRISAS, REFLEJANTESDER, HERRAMIENTA,
                                 REFLEJANTESIZQ, ESPEJOSLAT, ESPEJORETRO, POLVERAS, TAPON, TAPETES, LIMPIABRISAS, 
                                 CUBREASIENTOS, PARASOLES, ENCENDEDOR, CLAXON, CAJUELA, LUCESDEL, ANTENA, LUCESTRAS,
                                 FAROS, OBJETOS, OBSERVACIONES) 
-                    VALUES ('$kilometros','$gasolina','$llantaref','$emblemafrente','$gato','$emblemacostado','$extinguidor',
+                    VALUES ('$nuevo_folio','$kilometros','$gasolina','$llantaref','$emblemafrente','$gato','$emblemacostado','$extinguidor',
                             '$moldurader','$estereo','$molduraizq','$parabrisas','$reflejantesder','$herramienta',
                             '$reflejantesizq','$espejoslat','$espejoretro','$polveras','$tapon','$tapetes', '$limpiabrisas',
                             '$cubreasientos','$parasoles','$encendedor','$claxon','$cajuela','$lucesdel','$antena',
-                            '$lucestras','$faros','$objetos','$observaciones')") 
-                            or die("Error al guardar los datos del inventario: ".mysqli_error($con));
+                            '$lucestras','$faros','$objetos','$observaciones')";
 
-            mysqli_query($con, "INSERT INTO presupuestos (STATUS) VALUES ('Presupuesto sin realizar')")
-                            or die("Error al guardar los datos para presupuesto: ".mysqli_error($con));
-            
-            mysqli_close($con);
+                if ($con->query($crea_inventario) === TRUE) {
+                    # code...
+                } else {
+                   die("Error al guardar los datos del inventario: ".mysqli_error($con)); 
+                }
 
-            $inventario_correcto = "Inventario guardado correctamente! Número de folio generado: 0";
+//----------------------------------------Crea presupuesto en la base de datos-------------------------------------------------------------------
+                $crea_presupuesto = "INSERT INTO presupuestos (FOLIO, STATUS) VALUES ('$nuevo_folio','Presupuesto sin realizar')";
+
+                if ($con->query($crea_presupuesto) === TRUE) {
+                    # code...
+                } else {
+                   die("Error al guardar los datos para presupuesto: ".mysqli_error($con)); 
+                }
+
+            }else
+                die("Error al guardar los datos del vehiculo: ".mysqli_error($con));  
+
+
+            $inventario_correcto = true;
 
         }else {
             $inventario_erroneo = "El inventario contiene errores, favor de verificarlo."; 
@@ -125,8 +186,8 @@
             </div>
             <div style="color: white; padding: 15px 50px 5px 50px; float: right; font-size: 16px;"> 
                 Bienvenido <?php echo $_SESSION["username"]; ?> 
-                <img src="gordito.png" height="30px" width="30px">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                <a href="../logout.php" class="btn btn-success square-btn-adjust">Logout</a> 
+                <img src="../assets/img/user.png" height="30px" width="30px">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                <a href="../assets/includes/logout.php" class="btn btn-success square-btn-adjust">Logout</a> 
             </div>
         </nav>
         <!-- /. NAV TOP  -->
@@ -136,26 +197,22 @@
 				    <li class="text-center"><img src="../assets/img/logo.png" class="user-image img-responsive"/></li>
                     <li><a href="Menu.php"><i class="fa fa-user fa-3x"></i>Resumen</a>
 				    <li><a href="Vehiculos en taller.php"><i class="fa fa-dashboard fa-3x"></i>Veh&iacuteculos en taller</a></li>
+                    <li><a href="Vehiculos para entregar.php"><i class="fa fa-dashboard fa-3x"></i>Veh&iacuteculos para entregar</a></li>
                     <li><a class="active-menu" href="#"><i class="fa fa-edit fa-3x"></i>Inventarios<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li><a href="Nuevo Inventario.php">Nuevo inventario</a></li>
-                            <li><a href="Buscar Inventario.html">Buscar inventario</a></li>
-                            <li><a href="Historico inventarios.php">Hist&oacuterico de inventarios</a></li>
+                            <li><a href="Historico Inventarios.php">Historico de inventarios</a></li>
                         </ul>
                     </li>
                     <li><a href="#"><i class="fa fa-bar-chart-o fa-3x"></i>Presupuestos<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li><a href="Presupuesto Rapido.html">Nuevo presupuesto r&aacutepido</a></li>
                             <li><a href="Presupuesto Taller.php">Nuevo presupuesto para taller</a></li>
-                            <li><a href="Buscar Presupuesto.html">Buscar presupuesto</a></li>
-                            <li><a href="Historial Presupuestos.html">Historial de presupuestos</a></li>
+                            <li><a href="Presupuestos Pendientes.php">Presupuestos pendientes</a></li>
                         </ul>
                     </li>
                     <li><a href="#"><i class="fa fa-square-o fa-3x"></i>Vales<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li><a href="Nuevo Vale.html">Nuevo vale</a></li>
-                            <li><a href="Presupuesto Taller.html">Buscar vales</a></li>
-                            <li><a href="Buscar Presupuesto.html">Hist&oacuterico de vales</a></li>
+                            <li><a href="Nuevo Vale.php">Nuevo vale</a></li>
                         </ul>
                     </li>
                     <li><a  href="table.html"><i class="fa fa-money fa-3x"></i>Gastos</a></li>
@@ -176,21 +233,26 @@
                         <hr/>
                     </div>
                 </div>
+
+                <?php
+                    if ($inventario_correcto === TRUE) {
+                        echo "<span class='correcto' style='font-size:20px'>Inventario guardado correctamente! Número de folio generado: ".$nuevo_folio."</span>";
+                    }else{ ?>
                 <div class="row">
                     <div class="col-sm-10">
                         <?php
-                            echo "<span class='correcto' style='font-size:20px'>" . $inventario_correcto ."</span>";
+                            
                             echo "<span class='error' style='font-size:20px'>" . $inventario_erroneo ."</span>";
                         ?>
                     </div>
                     <div class="col-sm-2">           
-			                <legend>Folio: 0</legend>
+			                <legend>Folio: <?php echo $folio + 1; ?></legend>
                     </div>
                 </div>
 
                 <!-- /. ROW  -->
 
-        <form id="inventarioForm" class="form-horizontal" action="<?php $_SERVER["PHP_SELF"]?>" name="inventario" method="POST">
+        <form id="inventarioForm" class="form-horizontal" action="<?php $_SERVER["PHP_SELF"]?>" name="inventario" method="POST" enctype="multipart/form-data">
             <fieldset>
                 <legend>Datos del cliente</legend>
                 <div class="form-group" >
@@ -677,7 +739,7 @@
             <br>
         </form>      
         </div>
-    
+                    <?php } ?>
                 </div>
             <!-- /. PAGE INNER  -->
         </div>

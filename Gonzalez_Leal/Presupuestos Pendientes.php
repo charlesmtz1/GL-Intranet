@@ -4,7 +4,7 @@
         header("Location: ../login.php");
     }else{
 
-        include("conexion_leal.php");
+        include("../assets/includes/conexion_leal.php");
         $con = mysqli_connect($hostname, $user, $pass, $db) or die("Error al conectar con el servidor");
 
         $query = mysqli_query($con, "SELECT vehiculos.FOLIO, vehiculos.MARCA, vehiculos.TIPO, vehiculos.MODELO, vehiculos.PLACAS, vehiculos.COMPANIA, vehiculos.SINIESTRO,
@@ -47,8 +47,8 @@
             </div>
             <div style="color: white; padding: 15px 50px 5px 50px; float: right; font-size: 16px;"> 
                 Bienvenido <?php echo $_SESSION["username"]; ?> 
-                <img src="gordito.png" height="30px" width="30px">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                <a href="../logout.php" class="btn btn-success square-btn-adjust">Logout</a> 
+                <img src="../assets/img/user.png" height="30px" width="30px">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                <a href="../assets/includes/logout.php" class="btn btn-success square-btn-adjust">Logout</a> 
             </div>
         </nav>
         <!-- /. NAV TOP  -->

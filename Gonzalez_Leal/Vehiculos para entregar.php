@@ -4,7 +4,7 @@
         header("Location: ../login.php");
     }else{
         
-        include("conexion_leal.php");
+        include("../assets/includes/conexion_leal.php");
 
         $con = mysqli_connect($hostname, $user, $pass, $db) or die("Error al conectar con el servidor");
 
@@ -52,8 +52,8 @@
             </div>
             <div style="color: white; padding: 15px 50px 5px 50px; float: right; font-size: 16px;"> 
                 Bienvenido <?php echo $_SESSION["username"]; ?> 
-                <img src="gordito.png" height="30px" width="30px">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                <a href="../logout.php" class="btn btn-success square-btn-adjust">Logout</a> 
+                <img src="../assets/img/user.png" height="30px" width="30px">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                <a href="../assets/includes/logout.php" class="btn btn-success square-btn-adjust">Logout</a> 
             </div>
         </nav>
         <!-- /. NAV TOP  -->
@@ -104,7 +104,7 @@
 
                 <?php
                     while ($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) { ?>
-                        <div class="polaroid">
+                        <div class="polaroid" style="display:inline-block; margin-right:40px;">
                             <img src="<?php echo $row['FOTO1']; ?>" alt="<?php echo $row['FOLIO']."-".$row['MARCA']."-".$row['TIPO']."-".$row['MODELO']; ?>" style="height:300px; width:400px">
                             <div class="titulo"><strong>
                                 Folio: <?php echo $row['FOLIO'] ?><br>

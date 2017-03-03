@@ -39,7 +39,7 @@
 
     if(isset($_POST["busqueda"])){
         $buscar = $_POST['buscar'];
-        include("conexion_leal.php");
+        include("../assets/includes/conexion_leal.php");
 
         $con = mysqli_connect($hostname, $user, $pass, $db) or die("Error al conectar con el servidor");
         $query = mysqli_query($con, "SELECT * FROM vehiculos WHERE FOLIO = '$buscar'");
@@ -71,7 +71,7 @@
 
     if(isset($_GET["folio"])){
         $buscar = $_GET['folio'];
-        include("conexion_leal.php");
+        include("../assets/includes/conexion_leal.php");
 
         $con = mysqli_connect($hostname, $user, $pass, $db) or die("Error al conectar con el servidor");
         $query = mysqli_query($con, "SELECT * FROM vehiculos WHERE FOLIO = '$buscar'");
@@ -116,7 +116,7 @@
 
         $total_valuacion = $total_mano_obra + $total_refacciones;
 
-        include("conexion_leal.php");
+        include("../assets/includes/conexion_leal.php");
 
         $con = mysqli_connect($hostname, $user, $pass, $db) or die("Error al conectar con el servidor");
 
@@ -180,8 +180,8 @@
             </div>
             <div style="color: white; padding: 15px 50px 5px 50px; float: right; font-size: 16px;"> 
                 Bienvenido <?php echo $_SESSION["username"]; ?> 
-                <img src="gordito.png" height="30px" width="30px">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                <a href="../logout.php" class="btn btn-success square-btn-adjust">Logout</a> 
+                <img src="../assets/img/user.png" height="30px" width="30px">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                <a href="../assets/includes/logout.php" class="btn btn-success square-btn-adjust">Logout</a> 
             </div>
         </nav>
         <!-- /. NAV TOP  -->
@@ -839,6 +839,7 @@
                 }else {
                     echo "<span class='error' style='font-size:20px'>" . $error_busqueda ."</span>";
                 } ?>
+                <?php } ?>
             </div>
             <!-- /. PAGE INNER  -->
         </div>
@@ -860,5 +861,4 @@
         <script src="../assets/js/custom.js"></script>
     </body>
 </html>
-<?php } ?>
 <?php } ?>

@@ -4,13 +4,22 @@
         header("Location: ../login.php");
     }else{
 
-        $aux = 0;
-        $presupuestos_pendientes = null;
+        $vehiculos_semana = null;
         $vehiculos_activos = null;
         $vehiculos_terminados = null;
+        $presupuestos_pendientes = null;
+        $vehiculos_atrasados = 0;
+        $semana = date("W");
+        $year = date("Y");
 
-        include("conexion_leal.php");
+        include("../assets/includes/conexion_leal.php");
         $con = mysqli_connect($hostname,$user,$pass,$db);
+
+        $query = mysqli_query($con,"SELECT COUNT(FECHA) FROM vehiculos WHERE {fn week(FECHA)} =".$semana." AND {fn year(FECHA)}=".$year."");
+        $row = mysqli_fetch_array($query,MYSQLI_ASSOC);
+        
+        $vehiculos_semana = $row["COUNT(FECHA)"];
+
         $query = mysqli_query($con,"SELECT COUNT(STATUS) FROM vehiculos WHERE STATUS = 'Activo'");
         $row = mysqli_fetch_array($query,MYSQLI_ASSOC);
         
@@ -62,8 +71,8 @@
             </div>
             <div style="color: white; padding: 15px 50px 5px 50px; float: right; font-size: 16px;"> 
                 Bienvenido <?php echo $_SESSION["username"]; ?> 
-                <img src="gordito.png" height="30px" width="30px">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                <a href="../logout.php" class="btn btn-success square-btn-adjust">Logout</a> 
+                <img src="../assets/img/user.png" height="30px" width="30px">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                <a href="../assets/includes/logout.php" class="btn btn-success square-btn-adjust">Logout</a> 
             </div>
         </nav>
         <!-- /. NAV TOP  -->
@@ -115,7 +124,7 @@
 			            <div class="panel panel-back noti-box">
                             <span class="icon-box bg-color-green set-icon"><i class="fa fa-rocket"></i></span>
                             <div class="text-box">
-                                <p class="main-text" style="text-align:center;">0</p><br>
+                                <p class="main-text" style="text-align:center;"><?php echo $vehiculos_semana; ?></p><br>
                                 <p class="text-muted">Veh&iacuteculos esta semana</p>
                             </div>
                         </div>
@@ -160,13 +169,13 @@
                     <div class="col-md-6 col-sm-12 col-xs-12">           
 			            <div class="panel panel-back noti-box">
                             <?php
-                                if($aux === 0)
+                                if($vehiculos_atrasados === 0)
                                     echo "<span class='icon-box bg-color-green'><i class='fa fa-check'></i></span>";
                                 else
                                     echo "<span class='icon-box bg-color-red'><i class='fa fa-warning'></i></span>";
                             ?>
                             <div class="text-box" >
-                                <p class="main-text">0 Veh&iacuteculos atrasados </p>
+                                <p class="main-text"><?php echo $vehiculos_atrasados; ?> Veh&iacuteculos atrasados </p>
                                 <p class="text-muted">Deben entregarse a la brevedad</p>
                             </div>
                         </div>

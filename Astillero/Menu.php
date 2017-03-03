@@ -4,16 +4,39 @@
         header("Location: ../login.php");
     }else{
 
-        $aux = 0;
+        $vehiculos_semana = null;
         $vehiculos_activos = null;
+        $vehiculos_terminados = null;
+        $presupuestos_pendientes = null;
+        $vehiculos_atrasados = 0;
+        $semana = date("W");
+        $year = date("Y");
 
-        include("conexion_astillero.php");
+        include("../assets/includes/conexion_astillero.php");
         $con = mysqli_connect($hostname,$user,$pass,$db);
+
+        $query = mysqli_query($con,"SELECT COUNT(FECHA) FROM vehiculos WHERE {fn week(FECHA)} =".$semana." AND {fn year(FECHA)}=".$year."");
+        $row = mysqli_fetch_array($query,MYSQLI_ASSOC);
+        
+        $vehiculos_semana = $row["COUNT(FECHA)"];
+
         $query = mysqli_query($con,"SELECT COUNT(STATUS) FROM vehiculos WHERE STATUS = 'Activo'");
         $row = mysqli_fetch_array($query,MYSQLI_ASSOC);
-        mysqli_close($con);
         
         $vehiculos_activos = $row["COUNT(STATUS)"];
+
+        $query = mysqli_query($con,"SELECT COUNT(STATUS) FROM vehiculos WHERE STATUS = 'Terminado'");
+        $row = mysqli_fetch_array($query,MYSQLI_ASSOC);
+
+        $vehiculos_terminados = $row["COUNT(STATUS)"];
+
+        $query = mysqli_query($con,"SELECT COUNT(STATUS) FROM presupuestos WHERE STATUS = 'Presupuesto sin realizar'");
+        $row = mysqli_fetch_array($query,MYSQLI_ASSOC);
+        
+        $presupuestos_pendientes = $row["COUNT(STATUS)"];
+
+        mysqli_close($con);
+
 ?>
 
 <!DOCTYPE html>
@@ -48,8 +71,8 @@
             </div>
             <div style="color: white; padding: 15px 50px 5px 50px; float: right; font-size: 16px;"> 
                 Bienvenido <?php echo $_SESSION["username"]; ?> 
-                <img src="gordito.png" height="30px" width="30px">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                <a href="../logout.php" class="btn btn-success square-btn-adjust">Logout</a> 
+                <img src="../assets/img/user.png" height="30px" width="30px">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                <a href="../assets/includes/logout.php" class="btn btn-success square-btn-adjust">Logout</a> 
             </div>
         </nav>
         <!-- /. NAV TOP  -->
@@ -59,26 +82,22 @@
 				    <li class="text-center"><img src="../assets/img/logo.png" class="user-image img-responsive"/></li>
                     <li><a class="active-menu" href="Menu.php"><i class="fa fa-user fa-3x"></i>Resumen</a>
 				    <li><a href="Vehiculos en taller.php"><i class="fa fa-dashboard fa-3x"></i>Veh&iacuteculos en taller</a></li>
+                    <li><a href="Vehiculos para entregar.php"><i class="fa fa-dashboard fa-3x"></i>Veh&iacuteculos para entregar</a></li>
                     <li><a href="#"><i class="fa fa-edit fa-3x"></i>Inventarios<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li><a href="Nuevo Inventario.php">Nuevo inventario</a></li>
-                            <li><a href="Buscar Inventario.html">Buscar inventario</a></li>
-                            <li><a href="Historico inventarios.php">Hist&oacuterico de inventarios</a></li>
+                            <li><a href="Historico Inventarios.php">Historico de inventarios</a></li>
                         </ul>
                     </li>
                     <li><a href="#"><i class="fa fa-bar-chart-o fa-3x"></i>Presupuestos<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li><a href="Presupuesto Rapido.html">Nuevo presupuesto r&aacutepido</a></li>
                             <li><a href="Presupuesto Taller.php">Nuevo presupuesto para taller</a></li>
-                            <li><a href="Buscar Presupuesto.html">Buscar presupuesto</a></li>
-                            <li><a href="Historial Presupuestos.html">Historial de presupuestos</a></li>
+                            <li><a href="Presupuestos Pendientes.php">Presupuestos pendientes</a></li>
                         </ul>
                     </li>
                     <li><a href="#"><i class="fa fa-square-o fa-3x"></i>Vales<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li><a href="Nuevo Vale.php">Nuevo vale</a></li>
-                            <li><a href="Presupuesto Taller.html">Buscar vales</a></li>
-                            <li><a href="Buscar Presupuesto.html">Hist&oacuterico de vales</a></li>
                         </ul>
                     </li>
                     <li><a  href="table.html"><i class="fa fa-money fa-3x"></i>Gastos</a></li>
@@ -105,7 +124,7 @@
 			            <div class="panel panel-back noti-box">
                             <span class="icon-box bg-color-green set-icon"><i class="fa fa-rocket"></i></span>
                             <div class="text-box">
-                                <p class="main-text" style="text-align:center;">0</p><br>
+                                <p class="main-text" style="text-align:center;"><?php echo $vehiculos_semana; ?></p><br>
                                 <p class="text-muted">Veh&iacuteculos esta semana</p>
                             </div>
                         </div>
@@ -123,7 +142,7 @@
 			            <div class="panel panel-back noti-box">
                             <span class="icon-box bg-color-green set-icon"><i class="fa fa-flag-checkered"></i></span>
                             <div class="text-box">
-                                <p class="main-text" style="text-align:center;">0</p><br>
+                                <p class="main-text" style="text-align:center;"><?php echo $vehiculos_terminados; ?></p><br>
                                 <p class="text-muted">Veh&iacuteculos para entregar</p>
                             </div>
                         </div>
@@ -135,13 +154,13 @@
                     <div class="col-md-6 col-sm-12 col-xs-12">           
 			            <div class="panel panel-back noti-box">
                             <?php
-                                if($aux === 0)
+                                if($presupuestos_pendientes == 0)
                                     echo "<span class='icon-box bg-color-green'><i class='fa fa-check'></i></span>";
                                 else
                                     echo "<span class='icon-box bg-color-red'><i class='fa fa-warning'></i></span>";
                             ?>
                             <div class="text-box" >
-                                <p class="main-text">0 Presupuestos pendientes</p>
+                                <p class="main-text"><?php echo $presupuestos_pendientes; ?> Presupuestos pendientes</p>
                                 <p class="text-muted">Deben generarse a la brevedad</p>
                             </div>
                         </div>
@@ -150,13 +169,13 @@
                     <div class="col-md-6 col-sm-12 col-xs-12">           
 			            <div class="panel panel-back noti-box">
                             <?php
-                                if($aux === 0)
+                                if($vehiculos_atrasados === 0)
                                     echo "<span class='icon-box bg-color-green'><i class='fa fa-check'></i></span>";
                                 else
                                     echo "<span class='icon-box bg-color-red'><i class='fa fa-warning'></i></span>";
                             ?>
                             <div class="text-box" >
-                                <p class="main-text">0 Veh&iacuteculos atrasados </p>
+                                <p class="main-text"><?php echo $vehiculos_atrasados; ?> Veh&iacuteculos atrasados </p>
                                 <p class="text-muted">Deben entregarse a la brevedad</p>
                             </div>
                         </div>

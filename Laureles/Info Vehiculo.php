@@ -4,7 +4,7 @@
         header("Location: ../login.php");
     }else{
         $folio = $_GET['folio'];
-        include("../assets/includes/conexion_leal.php");
+        include("../assets/includes/conexion_laureles.php");
 
         $con = mysqli_connect($hostname, $user, $pass, $db) or die("Error al conectar con el servidor");
 

@@ -20,11 +20,11 @@
 
     if(!empty($_POST["usuario"]) && !empty($_POST["password"])){
         if($_POST["sucursal"] == "Astillero"){
-            include("Astillero/conexion_astillero.php");
+            include("assets/includes/conexion_astillero.php");
         }elseif ($_POST["sucursal"] == "Gonzalez Leal") {
-            include("Gonzalez_Leal/conexion_leal.php");
+            include("assets/includes/conexion_leal.php");
         }elseif ($_POST["sucursal"] == "Laureles"){
-            include("Laureles/conexion_laureles.php");
+            include("assets/includes/conexion_laureles.php");
         }
 
         $con = mysqli_connect($hostname, $user, $pass, $db) or die("Error al conectar con el servidor...");
@@ -79,10 +79,10 @@
     </head>
 
     <body style="background-image:url('GL Body.jpg');">
-        <div class="container-fluid" style="background-image:url('GL Body.jpg');">
+        <div class="container-fluid" style="background-image:url('assets/img/GL Body.jpg');">
             <br><br><br><br>
             <hgroup style="text-align:center;">
-                <img src="logo.png" alt="GL Intranet">
+                <img src="assets/img/logo.png" alt="GL Intranet">
                 <h4>*GL Intranet 2016*</h4>
                 <br>
             </hgroup>

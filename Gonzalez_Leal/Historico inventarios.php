@@ -4,7 +4,7 @@
         header("Location: ../login.php");
     }else{
 
-        include("conexion_leal.php");
+        include("../assets/includes/conexion_leal.php");
         $con = mysqli_connect($hostname, $user, $pass, $db) or die("Error al conectar con el servidor");
 
         $query = mysqli_query($con, "SELECT * FROM vehiculos") or die("No se pudo realizar la consulta");
@@ -45,8 +45,8 @@
             </div>
             <div style="color: white; padding: 15px 50px 5px 50px; float: right; font-size: 16px;"> 
                 Bienvenido <?php echo $_SESSION["username"]; ?> 
-                <img src="gordito.png" height="30px" width="30px">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                <a href="../logout.php" class="btn btn-success square-btn-adjust">Logout</a> 
+                <img src="../assets/img/user.png" height="30px" width="30px">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                <a href="../assets/includes/logout.php" class="btn btn-success square-btn-adjust">Logout</a> 
             </div>
         </nav>
         <!-- /. NAV TOP  -->
@@ -84,7 +84,7 @@
                 <div class="row">
                     <div class="col-md-12 col-sm-6 col-xs-6">           
 			            <div class="panel panel-back noti-box">
-                            <span class="icon-box bg-color-green set-icon"><i class="fa fa-user"></i></span>
+                            <span class="icon-box bg-color-green set-icon"><i class="fa fa-edit"></i></span>
                             <div class="text-box">
                                 <p class="main-text" style="text-align:center;">Historico de Inventarios</p>
                             </div>
@@ -94,8 +94,7 @@
                 </div>
                 <!-- /. ROW  -->
                 <div class="row">
-                    <div class="col-sm-12" id="historico">
-                        <input type="text" class="search form-control">
+                    <div class="col-sm-12">
                         <table class="table table-striped">
                             <thead style="text-align:center">
                                 <tr>
@@ -108,9 +107,8 @@
                                     <th>Siniestro</th>
                                     <th>Color</th>
                                     <th>Puertas</th>
-                                    <th>Fecha</th>
-                                    <th>Presupuesto</th>
-                                    <th>Vales</th>
+                                    <th>Fecha de ingreso</th>
+                                    <th>Mas Informacion</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -127,10 +125,10 @@
                                             <td><?php echo $row['COLOR'] ?></td>
                                             <td><?php echo $row['PUERTAS'] ?></td>
                                             <td><?php echo $row['FECHA'] ?></td>
-                                            <td><a href="Presupuesto Taller.php?folio=<?php echo $row['FOLIO']?>"><button type="submit" class="btn btn-success" name="entregar">Ver</button></a></td>
-                                            <td><a href="Presupuesto Taller.php?folio=<?php echo $row['FOLIO']?>"><button type="submit" class="btn btn-success" name="entregar">Ver</button></a></td>
+                                            <td><a href="Info Vehiculo.php?folio=<?php echo $row['FOLIO']?>"><button type="submit" class="btn btn-success" name="entregar">Ver</button></a></td>
                                         </tr>
                                     <?php } ?>
+                            </ul>
                             </tbody>
                         </table>
                     </div>
@@ -157,6 +155,7 @@
         <!-- CUSTOM SCRIPTS -->
         <script src="../assets/js/custom.js"></script>
         <script src="../assets/js/list.min.js"></script>
+        <script src="java.js"></script>
     </body>
 </html>
 <?php } ?>

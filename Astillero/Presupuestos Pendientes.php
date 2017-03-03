@@ -3,12 +3,16 @@
     if(empty($_SESSION['username'])){
         header("Location: ../login.php");
     }else{
-        
-        include("../assets/includes/conexion_astillero.php");
 
+        include("../assets/includes/conexion_astillero.php");
         $con = mysqli_connect($hostname, $user, $pass, $db) or die("Error al conectar con el servidor");
-        $query = mysqli_query($con, "SELECT * FROM vehiculos WHERE STATUS = 'Activo'");
+
+        $query = mysqli_query($con, "SELECT vehiculos.FOLIO, vehiculos.MARCA, vehiculos.TIPO, vehiculos.MODELO, vehiculos.PLACAS, vehiculos.COMPANIA, vehiculos.SINIESTRO,
+                        vehiculos.COLOR, vehiculos.PUERTAS, vehiculos.FECHA, presupuestos.STATUS FROM vehiculos, presupuestos WHERE vehiculos.FOLIO = presupuestos.FOLIO AND presupuestos.STATUS = 'Presupuesto sin realizar'") or die("No se pudo realizar la consulta");
+
+
         mysqli_close($con);
+
 ?>
 
 <!DOCTYPE html>
@@ -53,7 +57,7 @@
                 <ul class="nav" id="main-menu">
 				    <li class="text-center"><img src="../assets/img/logo.png" class="user-image img-responsive"/></li>
                     <li><a href="Menu.php"><i class="fa fa-user fa-3x"></i>Resumen</a>
-				    <li><a class="active-menu" href="Vehiculos en taller.php"><i class="fa fa-dashboard fa-3x"></i>Veh&iacuteculos en taller</a></li>
+				    <li><a href="Vehiculos en taller.php"><i class="fa fa-dashboard fa-3x"></i>Veh&iacuteculos en taller</a></li>
                     <li><a href="Vehiculos para entregar.php"><i class="fa fa-dashboard fa-3x"></i>Veh&iacuteculos para entregar</a></li>
                     <li><a href="#"><i class="fa fa-edit fa-3x"></i>Inventarios<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
@@ -61,7 +65,7 @@
                             <li><a href="Historico Inventarios.php">Historico de inventarios</a></li>
                         </ul>
                     </li>
-                    <li><a href="#"><i class="fa fa-bar-chart-o fa-3x"></i>Presupuestos<span class="fa arrow"></span></a>
+                    <li><a class="active-menu" href="#"><i class="fa fa-bar-chart-o fa-3x"></i>Presupuestos<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li><a href="Presupuesto Taller.php">Nuevo presupuesto para taller</a></li>
                             <li><a href="Presupuestos Pendientes.php">Presupuestos pendientes</a></li>
@@ -82,31 +86,56 @@
                 <div class="row">
                     <div class="col-md-12 col-sm-6 col-xs-6">           
 			            <div class="panel panel-back noti-box">
-                            <span class="icon-box bg-color-green set-icon"><i class="fa fa-dashboard"></i></span>
+                            <span class="icon-box bg-color-green set-icon"><i class="fa fa-bar-chart-o"></i></span>
                             <div class="text-box">
-                                <p class="main-text" style="text-align:center;">Vehiculos en taller</p>
+                                <p class="main-text" style="text-align:center;">Presupuestos Pendientes</p>
                             </div>
                         </div>
                         <hr/>
                     </div>
                 </div>
                 <!-- /. ROW  -->
-                <p>Seleccione un veh&iacuteculo para ver informaci&oacuten m&aacutes detallada:</p>
-
-                <?php
-                    while ($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
-                        echo "<div class='polaroid' style='display:inline-block; margin-right:40px;'>";
-                        //echo "<img src='".$row['FOTO1']."' alt='".$row['FOLIO']."-".$row['MARCA']."-".$row['TIPO']."-".$row['MODELO']."' class='image'>";
-                        echo "<a href='info vehiculo.php?folio=".$row['FOLIO']."' style='float:left'><img src='".$row['FOTO1']."' alt='".$row['FOLIO']."-".$row['MARCA']."-".$row['TIPO']."-".$row['MODELO']."' style='height:300px; width:400px'></a>";
-                        echo "<div class='titulo'><strong>";
-                        echo "Folio: ".$row['FOLIO']."<br>";
-                        echo "Marca: ".$row['MARCA']."<br>";
-                        echo "Tipo: ".$row['TIPO']."<br>";
-                        echo "Modelo: ".$row['MODELO']."<br>";
-                        echo "</strong></div>";
-                        echo "</div>";
-                    }
-                ?>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table class="table table-striped">
+                            <thead style="text-align:center">
+                                <tr>
+                                    <th>Folio</th>
+                                    <th>Marca</th>
+                                    <th>Tipo</th>
+                                    <th>Modelo</th>
+                                    <th>Placas</th>
+                                    <th>Compañia</th>
+                                    <th>Siniestro</th>
+                                    <th>Color</th>
+                                    <th>Puertas</th>
+                                    <th>Fecha</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                    while ($row = mysqli_fetch_array($query)) { ?>
+                                        <tr>
+                                            <td><?php echo $row['FOLIO'] ?></td>
+                                            <td><?php echo $row['MARCA'] ?></td>
+                                            <td><?php echo $row['TIPO'] ?></td>
+                                            <td><?php echo $row['MODELO'] ?></td>
+                                            <td><?php echo $row['PLACAS'] ?></td>
+                                            <td><?php echo $row['COMPANIA'] ?></td>
+                                            <td><?php echo $row['SINIESTRO'] ?></td>
+                                            <td><?php echo $row['COLOR'] ?></td>
+                                            <td><?php echo $row['PUERTAS'] ?></td>
+                                            <td><?php echo $row['FECHA'] ?></td>
+                                            <td><?php echo $row['STATUS'] ?></td>
+                                            <td><a href="Presupuesto Taller.php?folio=<?php echo $row['FOLIO']?>"><button type="submit" class="btn btn-success" name="entregar">Realizar</button></a></td>
+                                        </tr>
+                                    <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+			    </div>
+                <!-- /. ROW  -->
 
             </div>
             <!-- /. PAGE INNER  -->

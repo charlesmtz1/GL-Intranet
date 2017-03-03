@@ -4,7 +4,7 @@
         header("Location: ../login.php");
     }else{
         
-        include("conexion_leal.php");
+        include("../assets/includes/conexion_leal.php");
 
         $con = mysqli_connect($hostname, $user, $pass, $db) or die("Error al conectar con el servidor");
         $query = mysqli_query($con, "SELECT * FROM vehiculos WHERE STATUS = 'Activo'");
@@ -43,8 +43,8 @@
             </div>
             <div style="color: white; padding: 15px 50px 5px 50px; float: right; font-size: 16px;"> 
                 Bienvenido <?php echo $_SESSION["username"]; ?> 
-                <img src="gordito.png" height="30px" width="30px">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                <a href="../logout.php" class="btn btn-success square-btn-adjust">Logout</a> 
+                <img src="../assets/img/user.png" height="30px" width="30px">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                <a href="../assets/includes/logout.php" class="btn btn-success square-btn-adjust">Logout</a> 
             </div>
         </nav>
         <!-- /. NAV TOP  -->
@@ -95,7 +95,7 @@
 
                 <?php
                     while ($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
-                        echo "<div class='polaroid'>";
+                        echo "<div class='polaroid' style='display:inline-block; margin-right:40px;'>";
                         //echo "<img src='".$row['FOTO1']."' alt='".$row['FOLIO']."-".$row['MARCA']."-".$row['TIPO']."-".$row['MODELO']."' class='image'>";
                         echo "<a href='info vehiculo.php?folio=".$row['FOLIO']."' style='float:left'><img src='".$row['FOTO1']."' alt='".$row['FOLIO']."-".$row['MARCA']."-".$row['TIPO']."-".$row['MODELO']."' style='height:300px; width:400px'></a>";
                         echo "<div class='titulo'><strong>";

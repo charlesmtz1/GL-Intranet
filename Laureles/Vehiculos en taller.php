@@ -4,6 +4,11 @@
         header("Location: ../login.php");
     }else{
         
+        include("../assets/includes/conexion_laureles.php");
+
+        $con = mysqli_connect($hostname, $user, $pass, $db) or die("Error al conectar con el servidor");
+        $query = mysqli_query($con, "SELECT * FROM vehiculos WHERE STATUS = 'Activo'");
+        mysqli_close($con);
 ?>
 
 <!DOCTYPE html>
@@ -38,8 +43,8 @@
             </div>
             <div style="color: white; padding: 15px 50px 5px 50px; float: right; font-size: 16px;"> 
                 Bienvenido <?php echo $_SESSION["username"]; ?> 
-                <img src="gordito.png" height="30px" width="30px">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                <a href="../logout.php" class="btn btn-success square-btn-adjust">Logout</a> 
+                <img src="../assets/img/user.png" height="30px" width="30px">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                <a href="../assets/includes/logout.php" class="btn btn-success square-btn-adjust">Logout</a> 
             </div>
         </nav>
         <!-- /. NAV TOP  -->
@@ -49,26 +54,22 @@
 				    <li class="text-center"><img src="../assets/img/logo.png" class="user-image img-responsive"/></li>
                     <li><a href="Menu.php"><i class="fa fa-user fa-3x"></i>Resumen</a>
 				    <li><a class="active-menu" href="Vehiculos en taller.php"><i class="fa fa-dashboard fa-3x"></i>Veh&iacuteculos en taller</a></li>
+                    <li><a href="Vehiculos para entregar.php"><i class="fa fa-dashboard fa-3x"></i>Veh&iacuteculos para entregar</a></li>
                     <li><a href="#"><i class="fa fa-edit fa-3x"></i>Inventarios<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li><a href="Nuevo Inventario.php">Nuevo inventario</a></li>
-                            <li><a href="Buscar Inventario.html">Buscar inventario</a></li>
-                            <li><a href="Historico inventarios.php">Hist&oacuterico de inventarios</a></li>
+                            <li><a href="Historico Inventarios.php">Historico de inventarios</a></li>
                         </ul>
                     </li>
                     <li><a href="#"><i class="fa fa-bar-chart-o fa-3x"></i>Presupuestos<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li><a href="Presupuesto Rapido.html">Nuevo presupuesto r&aacutepido</a></li>
                             <li><a href="Presupuesto Taller.php">Nuevo presupuesto para taller</a></li>
-                            <li><a href="Buscar Presupuesto.html">Buscar presupuesto</a></li>
-                            <li><a href="Historial Presupuestos.html">Historial de presupuestos</a></li>
+                            <li><a href="Presupuestos Pendientes.php">Presupuestos pendientes</a></li>
                         </ul>
                     </li>
                     <li><a href="#"><i class="fa fa-square-o fa-3x"></i>Vales<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li><a href="Nuevo Vale.html">Nuevo vale</a></li>
-                            <li><a href="Presupuesto Taller.html">Buscar vales</a></li>
-                            <li><a href="Buscar Presupuesto.html">Hist&oacuterico de vales</a></li>
+                            <li><a href="Nuevo Vale.php">Nuevo vale</a></li>
                         </ul>
                     </li>
                     <li><a  href="table.html"><i class="fa fa-money fa-3x"></i>Gastos</a></li>
@@ -90,8 +91,22 @@
                     </div>
                 </div>
                 <!-- /. ROW  -->
-                
-                
+                <p>Seleccione un veh&iacuteculo para ver informaci&oacuten m&aacutes detallada:</p>
+
+                <?php
+                    while ($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
+                        echo "<div class='polaroid' style='display:inline-block; margin-right:40px;'>";
+                        //echo "<img src='".$row['FOTO1']."' alt='".$row['FOLIO']."-".$row['MARCA']."-".$row['TIPO']."-".$row['MODELO']."' class='image'>";
+                        echo "<a href='info vehiculo.php?folio=".$row['FOLIO']."' style='float:left'><img src='".$row['FOTO1']."' alt='".$row['FOLIO']."-".$row['MARCA']."-".$row['TIPO']."-".$row['MODELO']."' style='height:300px; width:400px'></a>";
+                        echo "<div class='titulo'><strong>";
+                        echo "Folio: ".$row['FOLIO']."<br>";
+                        echo "Marca: ".$row['MARCA']."<br>";
+                        echo "Tipo: ".$row['TIPO']."<br>";
+                        echo "Modelo: ".$row['MODELO']."<br>";
+                        echo "</strong></div>";
+                        echo "</div>";
+                    }
+                ?>
 
             </div>
             <!-- /. PAGE INNER  -->

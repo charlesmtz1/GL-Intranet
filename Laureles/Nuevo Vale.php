@@ -23,7 +23,7 @@
 
     if(isset($_POST["busqueda"])){
         $buscar = $_POST['buscar'];
-        include("../assets/includes/conexion_astillero.php");
+        include("../assets/includes/conexion_laureles.php");
 
         $con = mysqli_connect($hostname, $user, $pass, $db) or die("Error al conectar con el servidor");
         $query = mysqli_query($con, "SELECT * FROM vehiculos WHERE FOLIO = '$buscar'");
@@ -56,7 +56,7 @@
 
         $montototal = $monto1 + $monto2 + $monto3 + $monto4 + $monto5;
 
-        include("../assets/includes/conexion_astillero.php");
+        include("../assets/includes/conexion_laureles.php");
 
         $con = mysqli_connect($hostname, $user, $pass, $db) or die("Error al conectar con el servidor");
 
@@ -319,5 +319,4 @@
         <script src="../assets/js/custom.js"></script>
     </body>
 </html>
-
 <?php } ?>

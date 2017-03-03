@@ -4,7 +4,7 @@
         header("Location: ../login.php");
     }else{
         $folio = $_GET['folio'];
-        include("../assets/includes/conexion_leal.php");
+        include("../assets/includes/conexion_astillero.php");
 
         $con = mysqli_connect($hostname, $user, $pass, $db) or die("Error al conectar con el servidor");
 
@@ -121,10 +121,7 @@
                     <li><a data-toggle="tab" href="#menu2">Presupuesto</a></li>
                     <li><a data-toggle="tab" href="#menu3">Vales</a></li>
                     <li><a data-toggle="tab" href="#menu4">Fotos</a></li>
-                    <?php
-                        if($row['STATUS'] == 'Activo')
-                            echo "<li><a data-toggle='tab' href='#menu5'>Terminar veh&iacuteculo</a></li>";
-                    ?>
+                    <li><a data-toggle="tab" href="#menu5">Terminar veh&iacuteculo</a></li>
                 </ul>
 
 <!----------------------------------Resumen con datos del cliente y vehiculo---------------------------------------------->
